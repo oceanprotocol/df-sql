@@ -1,0 +1,12 @@
+version: "3.7"
+services:
+  node:
+    build: .
+    ports:
+      - "6234:6234"
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=my-secret-pw
