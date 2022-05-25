@@ -20,8 +20,6 @@ const getPools = (jsonsql) => {
     table: "pool_info",
     condition: jsonsql,
   });
-  console.log(query.query);
-  console.log(query.values);
   let q = query.query;
   q = q.replaceAll('"', "`");
   const vals = [];
@@ -30,14 +28,11 @@ const getPools = (jsonsql) => {
     vals.push(val);
   }
 
-  console.log(q, vals);
-
   return new Promise((res) => {
     db.query(q, vals, (err, data) => {
       if (err) {
         console.error(err);
       }
-      console.log(err, data);
       return res(data);
     });
   });
