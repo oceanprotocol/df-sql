@@ -24,7 +24,7 @@ const getPools = (jsonsql, sort, limit, offset) => {
   if (limit) obj.limit = limit
   if (offset) obj.offset = offset
 
-  const query = jsonSql.build(jsonsql);
+  const query = jsonSql.build(obj);
 
 
   let q = query.query;
