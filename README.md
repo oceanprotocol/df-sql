@@ -58,6 +58,30 @@ Returns the info for pool with the address `0x18b025e44bcd8dafd00638ce87bddbd38c
 ```
 Returns the list of pools where `chainID` is 4 and `vol_amt` is greater than 3 or `chainID` is 1 and `vol_amt` is greater than 5.
 
+---
 
+```json
+"query":{
+  "vol_amt":{"$gt":3}
+},
+"sort":{
+  "vol_amt":-1
+},
+"limit":10
+```
+Returns the list of **10** pools where the `vol_amt` is greater than 3. Sorted by `vol_amt` descending.
 
+---
 
+```json
+"query":{
+  "vol_amt":{"$gt":3}
+},
+"sort":{
+  "vol_amt":-1
+},
+"limit":10,
+"offset":10
+```
+
+Same as above + skips the first 10 pools.
