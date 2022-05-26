@@ -25,6 +25,8 @@ const getPools = (jsonsql, sort, limit, offset) => {
   if (offset) obj.offset = offset
 
   const query = jsonSql.build(jsonsql);
+
+
   let q = query.query;
   q = q.replaceAll('"', "`");
   const vals = [];
@@ -32,7 +34,6 @@ const getPools = (jsonsql, sort, limit, offset) => {
     q = q.replace("$" + key, "?");
     vals.push(val);
   }
-
 
   return new Promise((res) => {
     db.query(q, vals, (err, data) => {
