@@ -10,7 +10,10 @@ router.post("/pools/:id", async (req, res) => {
 router.post("/pools", async (req, res) => {
   // better if you get sort and filter data using a post req
   const query = req.body.query;
-  let data = await getPools(query);
+  const sort = req.body.sort;
+  const limit = req.body.limit;
+  const offset = req.body.offset;
+  let data = await getPools(query, sort, limit, offset);
   res.json(data);
 });
 

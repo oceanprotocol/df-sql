@@ -14,14 +14,17 @@ String.prototype.replaceAll = function (search, replacement) {
   return target.replace(new RegExp(search, "g"), replacement);
 };
 
-const getPools = (jsonsql) => {
-  const query = jsonSql.build({
+const getPools = (jsonsql, sort, limit, offset) => {
+  let obj = {
     type: "select",
     table: "pool_info",
-    condition: jsonsql,
-  });
-  console.log(query.query);
-  console.log(query.values);
+  }
+  if (jsonsql) obj.condition = jsonsql
+  if (sort) obj.sort = sort
+  if (limit) obj.limit = limit
+  if (offset) obj.offset = offset
+
+  const query = jsonSql.build(jsonsql);
   let q = query.query;
   q = q.replaceAll('"', "`");
   const vals = [];
@@ -30,14 +33,12 @@ const getPools = (jsonsql) => {
     vals.push(val);
   }
 
-  console.log(q, vals);
 
   return new Promise((res) => {
     db.query(q, vals, (err, data) => {
       if (err) {
         console.error(err);
       }
-      console.log(err, data);
       return res(data);
     });
   });
