@@ -7,6 +7,10 @@
 
 ### POST `/pools`
 Queries `pool_info` table.
+### POST `/stakes`
+Queries `pool_stakes` table.
+### POST `/volume`
+Queries `pool_vols` table.
 
 Queryable fields:
 ```
