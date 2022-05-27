@@ -1,23 +1,53 @@
 const croner = require("croner");
-const { updateDb } = require("../comps/update");
+const fs = require("fs");
+const { parseCsv } = require("../comps/csv/parse");
+const { updateDb, cleanDb } = require("../comps/update");
 
 croner.Cron("0 * * * * *", () => {
   sync();
 });
 
+const dataDir = "/app/data/"
+
 async function sync() {
   console.log("Starting sync");
 
+  let poolInfos = []
+  let poolVols = []
+  let poolStakes = []
+
+  fs.readdir(dataDir, (err, files) => {
+    if (err) {
+      throw err;
+    }
+    for (let file of files) {
+      if (file.includes("poolinfo")) {
+        poolInfos.push(...parseCsv(`${dataDir}${file}`))
+      }
+      if (file.includes("poolvols")) {
+        poolVols.push(...parseCsv(`${dataDir}${file}`))
+      }
+      if (file.includes("stakes-chain")) {
+        poolStakes.push(...parseCsv(`${dataDir}${file}`))
+      }
+    }
+  })
+
+  await cleanDb("pool_info")
   await updateDb(
-    "/app/data/poolinfo-0.csv",
+    poolInfos,
     "pool_info"
   );
+
+  await cleanDb("pool_vols")
   await updateDb(
-    "/app/data/poolvols-0.csv",
+    poolVols,
     "pool_vols"
   );
+
+  await cleanDb("pool_stakes")
   await updateDb(
-    "/app/data/stakes-chain0.csv",
+    poolStakes,
     "pool_stakes"
   );
 }
