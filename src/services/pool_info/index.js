@@ -1,5 +1,5 @@
 const db = require("../../db");
-const jsonSql = require("json-sql")();
+const { selectQuery } = require("../querier");
 
 const getPool = (addr) => {
   return new Promise((res) => {
@@ -15,34 +15,7 @@ String.prototype.replaceAll = function (search, replacement) {
 };
 
 const getPools = (jsonsql, sort, limit, offset) => {
-  let obj = {
-    type: "select",
-    table: "pool_info",
-  }
-  if (jsonsql) obj.condition = jsonsql
-  if (sort) obj.sort = sort
-  if (limit) obj.limit = limit
-  if (offset) obj.offset = offset
-
-  const query = jsonSql.build(obj);
-
-
-  let q = query.query;
-  q = q.replaceAll('"', "`");
-  const vals = [];
-  for (const [key, val] of Object.entries(query.values)) {
-    q = q.replace("$" + key, "?");
-    vals.push(val);
-  }
-
-  return new Promise((res) => {
-    db.query(q, vals, (err, data) => {
-      if (err) {
-        console.error(err);
-      }
-      return res(data);
-    });
-  });
+  return selectQuery(jsonsql, sort, limit, offset, "pool_info")
 };
 
 module.exports = {
