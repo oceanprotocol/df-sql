@@ -6,20 +6,29 @@
 ## Endpoints
 
 ### POST `/pools`
-Queries `pool_info` table.
-### POST `/stakes`
-Queries `pool_stakes` table.
-### POST `/volume`
-Queries `pool_vols` table.
-
+Queries `pool_info` table.  
 Queryable fields:
 ```
 chainID,basetoken,pool_addr,vol_amt,stake_amt,nft_addr,DT_addr,DT_symbol,basetoken_addr,did,url
 ```
 
-Request examples:
+### POST `/stakes`
+Queries `pool_stakes` table.  
+Queryable fields:
+```
+chainID,basetoken,pool_addr,LP_addr,stake_amt
+```
 
----
+### POST `/volume`
+Queries `pool_vols` table.  
+Queryable fields:
+```
+chainID,basetoken,pool_addr,vol_amt
+```
+
+
+## Request examples
+
 
 ```json
 "query":{
