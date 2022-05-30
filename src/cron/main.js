@@ -3,11 +3,11 @@ const fs = require("fs");
 const { parseCsv } = require("../comps/csv/parse");
 const { updateDb, cleanDb } = require("../comps/update");
 
-croner.Cron("0 * * * * *", () => {
+croner.Cron("0 */10 * * * *", () => {
   sync();
 });
 
-const dataDir = "/csv"
+const dataDir = "/csv/"
 
 async function sync() {
   console.log("Starting sync");
