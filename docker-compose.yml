@@ -6,6 +6,9 @@ services:
       - "6234:6234"
     depends_on:
       - mysql
+    volumes:
+      - ~/.dfcsv:/csv
+    
   mysql:
     image: mysql
     environment:
