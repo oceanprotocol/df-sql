@@ -7,7 +7,7 @@ croner.Cron("0 * * * * *", () => {
   sync();
 });
 
-const dataDir = "/app/data/"
+const dataDir = "/csv"
 
 async function sync() {
   console.log("Starting sync");
