@@ -15,6 +15,7 @@ async function sync() {
   let poolInfos = [];
   let poolVols = [];
   let poolStakes = [];
+  let rewardsInfo = [];
 
   fs.readdir(dataDir, async (err, files) => {
     if (err) {
@@ -30,16 +31,10 @@ async function sync() {
       if (file.includes("stakes-chain")) {
         poolStakes.push(...parseCsv(`${dataDir}${file}`));
       }
+      if (file.includes("rewardsinfo")) {
+        rewardsInfo.push(...parseCsv(`${dataDir}${file}`));
+      }
     }
-
-    poolInfos.forEach((info, y) => {
-      poolInfos[y].reward_amt =
-        Math.log10(info.stake_amt + 1) * Math.log10(info.vol_amt + 2);
-      console.log(
-        Math.log10(info.stake_amt + 1) * Math.log10(info.vol_amt + 2)
-      );
-    });
-    console.log(poolInfos);
 
     await cleanDb("pool_info");
     await updateDb(poolInfos, "pool_info");
@@ -49,5 +44,8 @@ async function sync() {
 
     await cleanDb("pool_stakes");
     await updateDb(poolStakes, "pool_stakes");
+
+    await cleanDb("rewards_info");
+    await updateDb(rewardsInfo, "rewards_info");
   });
 }
