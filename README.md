@@ -29,7 +29,7 @@ chainID,basetoken,pool_addr,vol_amt
 
 ## Request examples
 
-
+`POST /pool_info`
 ```json
 "query":{
    "vol_amt":{"$gt":3}
@@ -39,6 +39,7 @@ Returns the list of pools where the `vol_amt` is greater than 3.
 
 ---
 
+`POST /pool_info`
 ```json
 "query":{
   "pool_addr":"0x18b025e44bcd8dafd00638ce87bddbd38c4c38e7"
@@ -47,6 +48,8 @@ Returns the list of pools where the `vol_amt` is greater than 3.
 Returns the info for pool with the address `0x18b025e44bcd8dafd00638ce87bddbd38c4c38e7`
 
 ---
+
+`POST /pool_info`
 ```json
 "query":{
   "$or": [
@@ -73,6 +76,7 @@ Returns the list of pools where `chainID` is 4 and `vol_amt` is greater than 3 o
 
 ---
 
+`POST /pool_info`
 ```json
 "query":{
   "vol_amt":{"$gt":3}
@@ -86,6 +90,7 @@ Returns the list of **10** pools where the `vol_amt` is greater than 3. Sorted b
 
 ---
 
+`POST /pool_info`
 ```json
 "query":{
   "vol_amt":{"$gt":3}
@@ -98,3 +103,22 @@ Returns the list of **10** pools where the `vol_amt` is greater than 3. Sorted b
 ```
 
 Same as above + skips the first 10 pools.
+
+---
+
+`POST /rewards_info`
+```json
+{
+  "fields": [
+    {
+      "expression": {
+        "pattern": "sum(amt)"
+      }
+    },
+    "pool_addr"
+  ],
+  "group": "pool_addr"
+}
+```
+
+Returns the reward amount per pool.
