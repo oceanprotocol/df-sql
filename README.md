@@ -26,6 +26,12 @@ Queryable fields:
 chainID,basetoken,pool_addr,vol_amt
 ```
 
+### POST `/rewards`
+Queries `rewards_info` table.  
+Queryable fields:
+```
+chainID,pool_addr,LP_addr,amt,token
+```
 
 ## Request examples
 
