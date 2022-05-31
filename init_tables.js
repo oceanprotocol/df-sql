@@ -1,6 +1,11 @@
 require("dotenv").config();
 const mysql = require("mysql2");
-const { poolInfoTable, poolVolsTable, stakesChain } = require("./db/structure");
+const {
+  poolInfoTable,
+  poolVolsTable,
+  stakesChain,
+  rewardsInfo,
+} = require("./db/structure");
 
 const con = mysql.createConnection({
   host: process.env["MYSQL_HOST"],
@@ -11,7 +16,6 @@ const con = mysql.createConnection({
 
 con.connect(function (err) {
   if (err) throw err;
-
 
   con.query(poolInfoTable, function (err, result) {
     if (err) throw err;
@@ -24,5 +28,9 @@ con.connect(function (err) {
   con.query(stakesChain, function (err, result) {
     if (err) throw err;
     console.log("Table pool_stakes created");
+  });
+  con.query(rewardsInfo, function (err, result) {
+    if (err) throw err;
+    console.log("Table rewards_info created");
   });
 });
