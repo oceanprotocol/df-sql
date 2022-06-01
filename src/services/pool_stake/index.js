@@ -1,15 +1,7 @@
 const { selectQuery } = require("../querier");
 
-const getStakes = ({ jsonsql, sort, limit, offset, group, fields }) => {
-  return selectQuery(
-    jsonsql,
-    sort,
-    limit,
-    offset,
-    "pool_stakes",
-    group,
-    fields
-  );
+const getStakes = ({ query, sort, limit, offset, group, fields }) => {
+  return selectQuery(query, sort, limit, offset, "pool_stakes", group, fields);
 };
 
 module.exports = {
