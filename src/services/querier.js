@@ -41,10 +41,6 @@ const selectQuery = (
     vals.push(val);
   }
 
-  for (let i = 0; i < (q.match(/(?<=join \()(.*)(?=\))/g) ?? []).length; i++) {
-    q = q.replace(/(?<=join \()(.*)\)/g, `$1) as t${i}`);
-  }
-
   return new Promise((res) => {
     db.query(q, vals, (err, data) => {
       if (err) {
