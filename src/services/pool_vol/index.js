@@ -1,7 +1,16 @@
 const { selectQuery } = require("../querier");
 
-const getVols = ({ query, sort, limit, offset, group, fields }) => {
-  return selectQuery(query, sort, limit, offset, "pool_vols", group, fields);
+const getVols = ({ query, sort, limit, offset, group, fields, join }) => {
+  return selectQuery(
+    query,
+    sort,
+    limit,
+    offset,
+    "pool_vols",
+    group,
+    fields,
+    join
+  );
 };
 
 module.exports = {
