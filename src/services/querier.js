@@ -6,7 +6,16 @@ String.prototype.replaceAll = function (search, replacement) {
   return target.replace(new RegExp(search, "g"), replacement);
 };
 
-const selectQuery = (jsonsql, sort, limit, offset, dbname, group, fields) => {
+const selectQuery = (
+  jsonsql,
+  sort,
+  limit,
+  offset,
+  dbname,
+  group,
+  fields,
+  join
+) => {
   let obj = {
     type: "select",
     table: dbname,
@@ -17,6 +26,7 @@ const selectQuery = (jsonsql, sort, limit, offset, dbname, group, fields) => {
   if (limit) obj.limit = limit;
   if (offset) obj.offset = offset;
   if (group) obj.group = group;
+  if (join) obj.join = join;
 
   const query = jsonSql.build(obj);
 
