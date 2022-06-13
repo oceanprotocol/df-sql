@@ -1,5 +1,7 @@
 const db = require("../db");
-const jsonSql = require("json-sql")();
+const jsonSql = require("json-sql")({
+  dialect: "mysql",
+});
 
 String.prototype.replaceAll = function (search, replacement) {
   var target = this;
@@ -29,13 +31,18 @@ const selectQuery = (
   if (join) obj.join = join;
 
   const query = jsonSql.build(obj);
+  console.log("Query:", query);
 
   let q = query.query;
-  q = q.replaceAll('"', "`");
+  // q = q.replaceAll('"', "`");
   const vals = [];
   for (const [key, val] of Object.entries(query.values)) {
-    q = q.replace("$" + key, "?");
+    // q = q.replace("$" + key, "?");
     vals.push(val);
+  }
+
+  for (let i = 0; i < (q.match(/(?<=join \()(.*)(?=\))/g) ?? []).length; i++) {
+    q = q.replace(/(?<=join \()(.*)\)/g, `$1) as t${i}`);
   }
 
   return new Promise((res) => {
