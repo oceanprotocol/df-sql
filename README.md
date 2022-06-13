@@ -128,3 +128,34 @@ Same as above + skips the first 10 pools.
 ```
 
 Returns the reward amount per pool.
+
+---
+
+`POST /pool_info`
+```json
+{
+  "join": [
+    {
+      "alias": "t0",
+      "type": "left",
+      "on": {
+        "pool_info.pool_addr": "t0.pool_addr"
+      },
+      "select": {
+        "table": "rewards_info",
+        "fields": [
+          {
+            "expression": {
+              "pattern": "sum(amt)"
+            }
+          },
+          "pool_addr"
+        ],
+        "group": "pool_addr"
+      }
+    }
+  ]
+}
+```
+
+Returns the pool list with the total reward amount for each pool.
