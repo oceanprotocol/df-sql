@@ -38,7 +38,7 @@ const selectQuery = (
   // q = q.replaceAll('"', "`");
   const vals = [];
   for (const [key, val] of Object.entries(query.values)) {
-    // q = q.replace("$" + key, "?");
+    q = q.replace("$" + key, "?");
     vals.push(val);
   }
 
