@@ -1,31 +1,21 @@
-var poolInfoTable = `CREATE TABLE pool_info(
+var allocationsTable = `CREATE TABLE allocations(
     chainID        INT  NOT NULL
-    ,basetoken      VARCHAR(94) NOT NULL
-    ,pool_addr      VARCHAR(94) NOT NULL
-   ,vol_amt        FLOAT(94,10) NOT NULL
-   ,stake_amt      FLOAT(94,10) NOT NULL
-   ,nft_addr       VARCHAR(94) NOT NULL
-   ,DT_addr        VARCHAR(94) NOT NULL
-   ,DT_symbol      VARCHAR(94) NOT NULL
-   ,basetoken_addr VARCHAR(94) NOT NULL
-   ,did            VARCHAR(71) NOT NULL
-   ,url            VARCHAR(113) NOT NULL,
-   PRIMARY KEY(chainID, pool_addr) );`;
+    ,nft_addr      VARCHAR(94) NOT NULL
+    ,LP_addr      VARCHAR(94) NOT NULL
+    ,percent        FLOAT(94,10) NOT NULL,
+   PRIMARY KEY(chainID, nft_addr, LP_addr) );`;
 
-var poolVolsTable = `CREATE TABLE pool_vols(
+var nftVolsTable = `CREATE TABLE nft_vols(
     chainID        INT  NOT NULL
    ,basetoken      VARCHAR(94) NOT NULL
    ,pool_addr      VARCHAR(94) NOT NULL
    ,vol_amt        FLOAT(94,10) NOT NULL,
    PRIMARY KEY(chainID, pool_addr) );`;
 
-var stakesChain = `CREATE TABLE pool_stakes(
-    chainID        INT  NOT NULL
-   ,basetoken      VARCHAR(94) NOT NULL
-   ,LP_addr        VARCHAR(94) NOT NULL
-   ,pool_addr      VARCHAR(94) NOT NULL
-   ,stake_amt      FLOAT(94,10) NOT NULL,
-   PRIMARY KEY(chainID, pool_addr, LP_addr) )`;
+var vebalsTable = `CREATE TABLE vebals(
+   LP_addr        VARCHAR(94) NOT NULL
+   ,balance      FLOAT(94,10) NOT NULL
+   ,PRIMARY KEY(LP_addr) )`;
 
 var rewardsInfo = `CREATE TABLE rewards_info(
   chainID INT NOT NULL,
@@ -36,8 +26,8 @@ var rewardsInfo = `CREATE TABLE rewards_info(
   PRIMARY KEY(chainID, pool_addr, LP_addr, token))`;
 
 module.exports = {
-  poolInfoTable,
-  poolVolsTable,
-  stakesChain,
+  allocationsTable,
+  nftVolsTable,
+  vebalsTable,
   rewardsInfo,
 };

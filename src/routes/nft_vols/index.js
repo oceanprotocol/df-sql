@@ -1,5 +1,5 @@
 const express = require("express");
-const { getVols } = require("../../services/pool_vol");
+const { getVols } = require("../../services/nft_vols");
 
 const router = express.Router();
 

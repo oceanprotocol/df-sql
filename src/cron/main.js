@@ -12,9 +12,9 @@ const dataDir = "/csv/";
 async function sync() {
   console.log("Starting sync");
 
-  let poolInfos = [];
-  let poolVols = [];
-  let poolStakes = [];
+  let allocations = [];
+  let nftvols = [];
+  let vebals = [];
   let rewardsInfo = [];
 
   fs.readdir(dataDir, async (err, files) => {
@@ -23,27 +23,27 @@ async function sync() {
     }
     for (let file of files) {
       if (file.includes("poolinfo")) {
-        poolInfos.push(...parseCsv(`${dataDir}${file}`));
+        allocations.push(...parseCsv(`${dataDir}${file}`));
       }
       if (file.includes("poolvols")) {
-        poolVols.push(...parseCsv(`${dataDir}${file}`));
+        nftvols.push(...parseCsv(`${dataDir}${file}`));
       }
       if (file.includes("stakes-chain")) {
-        poolStakes.push(...parseCsv(`${dataDir}${file}`));
+        vebals.push(...parseCsv(`${dataDir}${file}`));
       }
       if (file.includes("rewardsinfo")) {
         rewardsInfo.push(...parseCsv(`${dataDir}${file}`));
       }
     }
 
-    await cleanDb("pool_info");
-    await updateDb(poolInfos, "pool_info");
+    await cleanDb("allocations");
+    await updateDb(allocations, "allocations");
 
-    await cleanDb("pool_vols");
-    await updateDb(poolVols, "pool_vols");
+    await cleanDb("nft_vols");
+    await updateDb(nftvols, "nft_vols");
 
-    await cleanDb("pool_stakes");
-    await updateDb(poolStakes, "pool_stakes");
+    await cleanDb("vebals");
+    await updateDb(vebals, "vebals");
 
     await cleanDb("rewards_info");
     await updateDb(rewardsInfo, "rewards_info");
