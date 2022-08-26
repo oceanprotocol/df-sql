@@ -1,9 +1,9 @@
 require("dotenv").config();
 const mysql = require("mysql2");
 const {
-  poolInfoTable,
-  poolVolsTable,
-  stakesChain,
+  allocationsTable,
+  nftVolsTable,
+  vebalsTable,
   rewardsInfo,
 } = require("./db/structure");
 
@@ -17,17 +17,17 @@ const con = mysql.createConnection({
 con.connect(function (err) {
   if (err) throw err;
 
-  con.query(poolInfoTable, function (err, result) {
+  con.query(allocationsTable, function (err, result) {
     if (err) throw err;
-    console.log("Table pool_info created");
+    console.log("Table allocations created");
   });
-  con.query(poolVolsTable, function (err, result) {
+  con.query(nftVolsTable, function (err, result) {
     if (err) throw err;
-    console.log("Table pool_vols created");
+    console.log("Table nft_vols created");
   });
-  con.query(stakesChain, function (err, result) {
+  con.query(vebalsTable, function (err, result) {
     if (err) throw err;
-    console.log("Table pool_stakes created");
+    console.log("Table vebals created");
   });
   con.query(rewardsInfo, function (err, result) {
     if (err) throw err;

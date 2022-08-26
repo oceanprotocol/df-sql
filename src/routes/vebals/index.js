@@ -1,8 +1,8 @@
 const express = require("express");
-const { getveBals } = require("../../services/vebals");
+const { getveBals } = require("../../services/vebals/");
 const router = express.Router();
 
-router.post("/rewards", async (req, res) => {
+router.post("/vebals", async (req, res) => {
   let data = await getveBals(req.body);
   res.json(data);
 });

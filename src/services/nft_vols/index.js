@@ -1,12 +1,12 @@
 const { selectQuery } = require("../querier");
 
-const getStakes = ({ query, sort, limit, offset, group, fields, join }) => {
+const getVols = ({ query, sort, limit, offset, group, fields, join }) => {
   return selectQuery(
     query,
     sort,
     limit,
     offset,
-    "pool_stakes",
+    "nft_vols",
     group,
     fields,
     join
@@ -14,5 +14,5 @@ const getStakes = ({ query, sort, limit, offset, group, fields, join }) => {
 };
 
 module.exports = {
-  getStakes,
+  getVols,
 };
