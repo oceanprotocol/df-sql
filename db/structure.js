@@ -8,9 +8,9 @@ var allocationsTable = `CREATE TABLE allocations(
 var nftVolsTable = `CREATE TABLE nft_vols(
     chainID        INT  NOT NULL
    ,basetoken      VARCHAR(94) NOT NULL
-   ,pool_addr      VARCHAR(94) NOT NULL
+   ,nft_addr      VARCHAR(94) NOT NULL
    ,vol_amt        FLOAT(94,10) NOT NULL,
-   PRIMARY KEY(chainID, pool_addr) );`;
+   PRIMARY KEY(chainID, nft_addr) );`;
 
 var vebalsTable = `CREATE TABLE vebals(
    LP_addr        VARCHAR(94) NOT NULL
@@ -20,10 +20,10 @@ var vebalsTable = `CREATE TABLE vebals(
 var rewardsInfo = `CREATE TABLE rewards_info(
   chainID INT NOT NULL,
   LP_addr VARCHAR(94) NOT NULL,
-  pool_addr VARCHAR(94) NOT NULL,
+  nft_addr VARCHAR(94) NOT NULL,
   amt FLOAT(94, 10) NOT NULL,
   token VARCHAR(94) NOT NULL,
-  PRIMARY KEY(chainID, pool_addr, LP_addr, token))`;
+  PRIMARY KEY(chainID, nft_addr, LP_addr, token))`;
 
 module.exports = {
   allocationsTable,
