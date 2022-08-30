@@ -39,5 +39,5 @@ module.exports = {
   nftVolsTable,
   vebalsTable,
   rewardsInfo,
-  veinfoTable: nftinfoTable,
+  nftinfoTable,
 };
