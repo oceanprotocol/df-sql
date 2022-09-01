@@ -1,3 +1,4 @@
+// bump start script
 require("dotenv").config();
 const mysql = require("mysql2");
 

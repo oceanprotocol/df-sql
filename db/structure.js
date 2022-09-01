@@ -12,6 +12,15 @@ var nftVolsTable = `CREATE TABLE nft_vols(
    ,vol_amt        FLOAT(94,10) NOT NULL,
    PRIMARY KEY(chainID, nft_addr) );`;
 
+var nftinfoTable = `CREATE TABLE nft_info(
+    chainID        INT  NOT NULL
+    ,nft_addr      VARCHAR(94) NOT NULL
+    ,did      VARCHAR(200) NOT NULL
+    ,symbol      VARCHAR(50) NOT NULL
+   ,basetoken_addr      VARCHAR(94) NOT NULL
+   ,volume        FLOAT(94,10) NOT NULL
+   ,PRIMARY KEY(chainID, nft_addr) );`;
+
 var vebalsTable = `CREATE TABLE vebals(
    LP_addr        VARCHAR(94) NOT NULL
    ,balance      FLOAT(94,10) NOT NULL
@@ -30,4 +39,5 @@ module.exports = {
   nftVolsTable,
   vebalsTable,
   rewardsInfo,
+  nftinfoTable,
 };

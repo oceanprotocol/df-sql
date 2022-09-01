@@ -5,6 +5,7 @@ const {
   nftVolsTable,
   vebalsTable,
   rewardsInfo,
+  nftinfoTable,
 } = require("../../db/structure");
 
 function createTables(con) {
@@ -23,6 +24,10 @@ function createTables(con) {
   con.query(rewardsInfo, function (err, result) {
     if (err) throw err;
     console.log("Table rewards_info created");
+  });
+  con.query(nftinfoTable, function (err, result) {
+    if (err) throw err;
+    console.log("Table nft_info created");
   });
 }
 

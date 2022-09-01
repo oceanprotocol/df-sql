@@ -1,3 +1,4 @@
+// bump start script
 require("dotenv").config();
 const mysql = require("mysql2");
 const {
@@ -5,6 +6,7 @@ const {
   nftVolsTable,
   vebalsTable,
   rewardsInfo,
+  nftinfoTable,
 } = require("./db/structure");
 
 const con = mysql.createConnection({
@@ -32,5 +34,9 @@ con.connect(function (err) {
   con.query(rewardsInfo, function (err, result) {
     if (err) throw err;
     console.log("Table rewards_info created");
+  });
+  con.query(nftinfoTable, function (err, result) {
+    if (err) throw err;
+    console.log("Table nft_info created");
   });
 });
