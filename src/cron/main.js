@@ -22,13 +22,13 @@ async function sync() {
       throw err;
     }
     for (let file of files) {
-      if (file.includes("poolinfo")) {
+      if (file.includes("allocations")) {
         allocations.push(...parseCsv(`${dataDir}${file}`));
       }
-      if (file.includes("poolvols")) {
+      if (file.includes("nftvols")) {
         nftvols.push(...parseCsv(`${dataDir}${file}`));
       }
-      if (file.includes("stakes-chain")) {
+      if (file.includes("vebals")) {
         vebals.push(...parseCsv(`${dataDir}${file}`));
       }
       if (file.includes("rewardsinfo")) {
