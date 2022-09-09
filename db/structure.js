@@ -7,7 +7,7 @@ var allocationsTable = `CREATE TABLE allocations(
 
 var nftVolsTable = `CREATE TABLE nft_vols(
     chainID        INT  NOT NULL
-   ,basetoken      VARCHAR(94) NOT NULL
+   ,basetoken_addr      VARCHAR(94) NOT NULL
    ,nft_addr      VARCHAR(94) NOT NULL
    ,vol_amt        FLOAT(94,10) NOT NULL,
    PRIMARY KEY(chainID, nft_addr) );`;
