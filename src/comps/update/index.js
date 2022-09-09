@@ -5,9 +5,9 @@ async function cleanDb(dbname) {
   await db.promise().query(`DELETE FROM ${dbname}`);
 }
 
-async function updateDb(poolInfos, dbname) {
+async function updateDb(data, dbname) {
   console.log("Updating db", dbname);
-  poolInfos.forEach(async (element) => {
+  data.forEach(async (element) => {
     let keys = Object.keys(element);
     let values = Object.values(element);
 
@@ -24,5 +24,5 @@ async function updateDb(poolInfos, dbname) {
 
 module.exports = {
   updateDb,
-  cleanDb
+  cleanDb,
 };
