@@ -16,6 +16,7 @@ async function sync() {
   let nftvols = [];
   let vebals = [];
   let rewardsInfo = [];
+  let nftinfo = [];
 
   fs.readdir(dataDir, async (err, files) => {
     if (err) {
@@ -34,6 +35,9 @@ async function sync() {
       if (file.includes("rewardsinfo")) {
         rewardsInfo.push(...parseCsv(`${dataDir}${file}`));
       }
+      if (file.includes("nftinfo")) {
+        nftinfo.push(...parseCsv(`${dataDir}${file}`));
+      }
     }
 
     await cleanDb("allocations");
@@ -47,5 +51,8 @@ async function sync() {
 
     await cleanDb("rewards_info");
     await updateDb(rewardsInfo, "rewards_info");
+
+    await cleanDb("nft_info");
+    await updateDb(nftinfo, "nft_info");
   });
 }
