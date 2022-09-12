@@ -5,57 +5,71 @@
 
 ## Endpoints
 
-### POST `/pools`
+<!-- ### POST `/pools`
 Queries `pool_info` table.  
 Queryable fields:
 ```
 chainID,basetoken,pool_addr,vol_amt,stake_amt,nft_addr,DT_addr,DT_symbol,basetoken_addr,did,url
-```
+``` -->
 
-### POST `/stakes`
-Queries `pool_stakes` table.  
+### POST `/allocations`
+Queries `allocations` table.
 Queryable fields:
 ```
-chainID,basetoken,pool_addr,LP_addr,stake_amt
+chainID,nft_addr,LP_addr,percent
 ```
 
 ### POST `/volume`
-Queries `pool_vols` table.  
+Queries `nft_vols` table.
 Queryable fields:
 ```
-chainID,basetoken,pool_addr,vol_amt
+chainID,basetoken_addr,nft_addr,vol_amt
+```
+
+### POST `/nftinfo`
+Queries `nft_info` table.
+Queryable fields:
+```
+chainID,nft_addr,did,symbol,basetoken_addr,volume
+```
+
+### POST `/vebals`
+Queries `vebals` table.  
+Queryable fields:
+```
+LP_addr,balance
 ```
 
 ### POST `/rewards`
 Queries `rewards_info` table.  
 Queryable fields:
 ```
-chainID,pool_addr,LP_addr,amt,token
+chainID,LP_addr,nft_addr,amt,token
 ```
 
 ## Request examples
 
-`POST /pool_info`
+`POST /nft_vols`
 ```json
 "query":{
    "vol_amt":{"$gt":3}
 }
 ```
-Returns the list of pools where the `vol_amt` is greater than 3.
+Returns the list of DataNFTs where the `vol_amt` is greater than 3.
 
 ---
 
-`POST /pool_info`
+`POST /nft_vols`
 ```json
 "query":{
-  "pool_addr":"0x18b025e44bcd8dafd00638ce87bddbd38c4c38e7"
+  "nft_addr":"0x18b025e44bcd8dafd00638ce87bddbd38c4c38e7"
 }
 ```
-Returns the info for pool with the address `0x18b025e44bcd8dafd00638ce87bddbd38c4c38e7`
+Returns the info for DataNFT with the address `0x18b025e44bcd8dafd00638ce87bddbd38c4c38e7`
 
 ---
 
-`POST /pool_info`
+`POST /volume`
 ```json
 "query":{
   "$or": [
@@ -78,11 +92,11 @@ Returns the info for pool with the address `0x18b025e44bcd8dafd00638ce87bddbd38c
   ]
 }
 ```
-Returns the list of pools where `chainID` is 4 and `vol_amt` is greater than 3 or `chainID` is 1 and `vol_amt` is greater than 5.
+Returns the list of DataNFTs where `chainID` is 4 and `vol_amt` is greater than 3 or `chainID` is 1 and `vol_amt` is greater than 5.
 
 ---
 
-`POST /pool_info`
+`POST /nft_vols`
 ```json
 "query":{
   "vol_amt":{"$gt":3}
@@ -92,11 +106,11 @@ Returns the list of pools where `chainID` is 4 and `vol_amt` is greater than 3 o
 },
 "limit":10
 ```
-Returns the list of **10** pools where the `vol_amt` is greater than 3. Sorted by `vol_amt` descending.
+Returns the list of **10** DataNFTs where the `vol_amt` is greater than 3. Sorted by `vol_amt` descending.
 
 ---
 
-`POST /pool_info`
+`POST /nft_vols`
 ```json
 "query":{
   "vol_amt":{"$gt":3}
@@ -108,7 +122,7 @@ Returns the list of **10** pools where the `vol_amt` is greater than 3. Sorted b
 "offset":10
 ```
 
-Same as above + skips the first 10 pools.
+Same as above + skips the first 10 DataNFTs.
 
 ---
 
@@ -121,9 +135,9 @@ Same as above + skips the first 10 pools.
         "pattern": "sum(amt)"
       }
     },
-    "pool_addr"
+    "nft_addr"
   ],
-  "group": "pool_addr"
+  "group": "nft_addr"
 }
 ```
 
@@ -131,7 +145,7 @@ Returns the reward amount per pool.
 
 ---
 
-`POST /pool_info`
+`POST /nft_info`
 ```json
 {
   "join": [
@@ -139,7 +153,7 @@ Returns the reward amount per pool.
       "alias": "t0",
       "type": "left",
       "on": {
-        "pool_info.pool_addr": "t0.pool_addr"
+        "nft_info.nft_addr": "t0.nft_addr"
       },
       "select": {
         "table": "rewards_info",
@@ -149,13 +163,13 @@ Returns the reward amount per pool.
               "pattern": "sum(amt)"
             }
           },
-          "pool_addr"
+          "nft_addr"
         ],
-        "group": "pool_addr"
+        "group": "nft_addr"
       }
     }
   ]
 }
 ```
 
-Returns the pool list with the total reward amount for each pool.
+Returns the DataNFT list with the total reward amount for each DataNFT.
