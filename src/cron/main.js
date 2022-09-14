@@ -56,7 +56,7 @@ async function sync() {
 
       for (let n of nftinfo) {
         console.log(n);
-        n.ve_allocated = nft_allocations[n.nft_addr];
+        n.ve_allocated = nft_allocations[n.nft_addr] ?? 0; // consider 0 if no allocations
       }
     } catch (error) {
       console.error("Error calculating nft allocations", error);
