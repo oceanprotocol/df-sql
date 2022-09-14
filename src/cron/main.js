@@ -40,6 +40,27 @@ async function sync() {
       }
     }
 
+    try {
+      // find how much has been allocated to each data nft
+      let nft_allocations = {}; // nft addr : ve amount
+      for (let allocation of allocations) {
+        if (!nft_allocations[allocation.nft_addr]) {
+          nft_allocations[allocation.nft_addr] = 0;
+        }
+        nft_allocations[allocation.nft_addr] +=
+          parseFloat(allocation.percent) *
+          parseFloat(
+            vebals.find((x) => x.LP_addr === allocation.LP_addr).balance
+          );
+      }
+
+      for (let n of nftinfo) {
+        n.push(nft_allocations[n[1]]);
+      }
+    } catch (error) {
+      console.error("Error calculating nft allocations", error);
+    }
+
     await cleanDb("allocations");
     await updateDb(allocations, "allocations");
 
