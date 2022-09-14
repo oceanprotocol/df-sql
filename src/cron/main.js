@@ -3,7 +3,7 @@ const fs = require("fs");
 const { parseCsv } = require("../comps/csv/parse");
 const { updateDb, cleanDb } = require("../comps/update");
 
-croner.Cron("0 */10 * * * *", () => {
+croner.Cron("0 */1 * * * *", () => {
   sync();
 });
 
@@ -55,7 +55,8 @@ async function sync() {
       }
 
       for (let n of nftinfo) {
-        n.push(nft_allocations[n[1]]);
+        console.log(n);
+        n.ve_allocated = nft_allocations[n.nft_addr];
       }
     } catch (error) {
       console.error("Error calculating nft allocations", error);
