@@ -9,7 +9,7 @@ services:
       - mysql
     volumes:
       - ~/.dfcsv:/csv
-    
+
   mysql:
     restart: always
     image: mysql

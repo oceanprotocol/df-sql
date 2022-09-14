@@ -3,7 +3,7 @@ const fs = require("fs");
 const { parseCsv } = require("../comps/csv/parse");
 const { updateDb, cleanDb } = require("../comps/update");
 
-croner.Cron("0 */10 * * * *", () => {
+croner.Cron("0 */1 * * * *", () => {
   sync();
 });
 
@@ -38,6 +38,28 @@ async function sync() {
       if (file.includes("nftinfo")) {
         nftinfo.push(...parseCsv(`${dataDir}${file}`));
       }
+    }
+
+    try {
+      // find how much has been allocated to each data nft
+      let nft_allocations = {}; // nft addr : ve amount
+      for (let allocation of allocations) {
+        if (!nft_allocations[allocation.nft_addr]) {
+          nft_allocations[allocation.nft_addr] = 0;
+        }
+        nft_allocations[allocation.nft_addr] +=
+          parseFloat(allocation.percent) *
+          parseFloat(
+            vebals.find((x) => x.LP_addr === allocation.LP_addr).balance
+          );
+      }
+
+      for (let n of nftinfo) {
+        console.log(n);
+        n.ve_allocated = nft_allocations[n.nft_addr] ?? 0; // consider 0 if no allocations
+      }
+    } catch (error) {
+      console.error("Error calculating nft allocations", error);
     }
 
     await cleanDb("allocations");
