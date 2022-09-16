@@ -17,8 +17,6 @@ var nftinfoTable = `CREATE TABLE nft_info(
     ,nft_addr      VARCHAR(94) NOT NULL
     ,did      VARCHAR(200) NOT NULL
     ,symbol      VARCHAR(50) NOT NULL
-   ,basetoken_addr      VARCHAR(94) NOT NULL
-   ,volume        FLOAT(94,10) NOT NULL
    ,ve_allocated  FLOAT(94,10)
    ,PRIMARY KEY(chainID, nft_addr) );`;
 
