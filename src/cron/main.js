@@ -56,6 +56,13 @@ async function sync() {
 
       for (let n of nftinfo) {
         n.ve_allocated = nft_allocations[n.nft_addr] ?? 0; // consider 0 if no allocations
+
+        n.vol_amt = nftvols.reduce((acc, x) => {
+          if (x.nft_addr === n.nft_addr) {
+            return acc + parseFloat(x.vol_amt);
+          }
+          return acc;
+        }, 0);
       }
     } catch (error) {
       console.error("Error calculating nft allocations", error);
