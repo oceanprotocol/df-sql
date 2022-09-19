@@ -57,7 +57,7 @@ async function sync() {
       for (let n of nftinfo) {
         n.ve_allocated = nft_allocations[n.nft_addr] ?? 0; // consider 0 if no allocations
 
-        n.vol_amt = nftvols.reduce((acc, x) => {
+        n.volume = nftvols.reduce((acc, x) => {
           if (x.nft_addr === n.nft_addr) {
             // TODO convert amount to usd here
             return acc + parseFloat(x.vol_amt);
