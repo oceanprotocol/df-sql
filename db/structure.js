@@ -18,7 +18,7 @@ var nftinfoTable = `CREATE TABLE nft_info(
     ,did      VARCHAR(200) NOT NULL
     ,symbol      VARCHAR(50) NOT NULL
    ,ve_allocated  FLOAT(94,10)
-   ,vol_amt  FLOAT(94,10),
+   ,vol_amt  FLOAT(94,10)
    ,PRIMARY KEY(chainID, nft_addr) );`;
 
 var vebalsTable = `CREATE TABLE vebals(
