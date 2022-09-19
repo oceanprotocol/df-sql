@@ -18,7 +18,6 @@ async function updateDb(data, dbname) {
       .join(", ")})`;
 
     let res = await db.promise().query(query);
-    console.log(res);
   });
 }
 
