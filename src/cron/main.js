@@ -3,7 +3,7 @@ const fs = require("fs");
 const { parseCsv } = require("../comps/csv/parse");
 const { updateDb, cleanDb } = require("../comps/update");
 
-croner.Cron("0 */1 * * * *", () => {
+croner.Cron("0 */5 * * * *", () => {
   sync();
 });
 
