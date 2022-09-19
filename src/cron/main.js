@@ -59,6 +59,7 @@ async function sync() {
 
         n.vol_amt = nftvols.reduce((acc, x) => {
           if (x.nft_addr === n.nft_addr) {
+            // TODO convert amount to usd here
             return acc + parseFloat(x.vol_amt);
           }
           return acc;
