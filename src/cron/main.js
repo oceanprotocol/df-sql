@@ -18,6 +18,9 @@ async function sync() {
   let rewardsInfo = [];
   let nftinfo = [];
 
+  let rates = [];
+  let symbols = [];
+
   fs.readdir(dataDir, async (err, files) => {
     if (err) {
       throw err;
@@ -38,6 +41,12 @@ async function sync() {
       if (file.includes("nftinfo")) {
         nftinfo.push(...parseCsv(`${dataDir}${file}`));
       }
+      if (file.includes("rate-")) {
+        rates.push(...parseCsv(`${dataDir}${file}`));
+      }
+      if (file.includes("symbols-")) {
+        symbols.push(...parseCsv(`${dataDir}${file}`));
+      }
     }
 
     try {
@@ -56,11 +65,20 @@ async function sync() {
 
       for (let n of nftinfo) {
         n.ve_allocated = nft_allocations[n.nft_addr] ?? 0; // consider 0 if no allocations
-
         n.volume = nftvols.reduce((acc, x) => {
           if (x.nft_addr === n.nft_addr) {
-            // TODO convert amount to usd here
-            return acc + parseFloat(x.vol_amt);
+            let baseTokenSymbol = symbols.find(
+              (y) => y.token_addr === x.basetoken_addr
+            );
+
+            if (!baseTokenSymbol) return acc;
+
+            let token_symbol = baseTokenSymbol.token_symbol;
+            let rate = rates.find((x) => x.token_symbol === token_symbol);
+
+            if (!rate) return acc;
+
+            return acc + parseFloat(x.vol_amt) * parseFloat(rate.rate);
           }
           return acc;
         }, 0);
