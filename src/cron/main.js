@@ -3,7 +3,7 @@ const fs = require("fs");
 const { parseCsv } = require("../comps/csv/parse");
 const { updateDb, cleanDb } = require("../comps/update");
 
-croner.Cron("0 */5 * * * *", () => {
+croner.Cron("0 */1 * * * *", () => {
   sync();
 });
 
@@ -62,21 +62,42 @@ async function sync() {
             vebals.find((x) => x.LP_addr === allocation.LP_addr).balance
           );
       }
-
       for (let n of nftinfo) {
         n.ve_allocated = nft_allocations[n.nft_addr] ?? 0; // consider 0 if no allocations
+      }
+    } catch (error) {
+      console.error("Error calculating nft allocations", error);
+    }
+
+    try {
+      for (let n of nftinfo) {
         n.volume = nftvols.reduce((acc, x) => {
           if (x.nft_addr === n.nft_addr) {
             let baseTokenSymbol = symbols.find(
               (y) => y.token_addr === x.basetoken_addr
             );
 
-            if (!baseTokenSymbol) return acc;
+            if (!baseTokenSymbol) {
+              console.error(
+                `No symbol found for ${x.basetoken_addr} in ${n.nft_addr}`
+              );
+              return acc;
+            }
 
             let token_symbol = baseTokenSymbol.token_symbol;
-            let rate = rates.find((x) => x.token_symbol === token_symbol);
+            let rate = rates.find(
+              //TODO make this look good later
+              (x) =>
+                x.token_symbol.replace("M", "") ===
+                token_symbol.replace("M", "")
+            );
 
-            if (!rate) return acc;
+            if (!rate) {
+              console.error(
+                `No rate found for ${token_symbol} in ${n.nft_addr}`
+              );
+              return acc;
+            }
 
             return acc + parseFloat(x.vol_amt) * parseFloat(rate.rate);
           }
@@ -84,7 +105,7 @@ async function sync() {
         }, 0);
       }
     } catch (error) {
-      console.error("Error calculating nft allocations", error);
+      console.error("Error calculating nft volumes", error);
     }
 
     await cleanDb("allocations");
