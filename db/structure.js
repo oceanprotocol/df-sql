@@ -10,7 +10,7 @@ var nftVolsTable = `CREATE TABLE nft_vols(
    ,basetoken_addr      VARCHAR(94) NOT NULL
    ,nft_addr      VARCHAR(94) NOT NULL
    ,vol_amt        FLOAT(94,10) NOT NULL,
-   PRIMARY KEY(chainID, nft_addr) );`;
+   PRIMARY KEY(chainID, nft_addr, basetoken_addr) );`;
 
 var nftinfoTable = `CREATE TABLE nft_info(
     chainID        INT  NOT NULL
