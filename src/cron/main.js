@@ -58,7 +58,7 @@ async function sync() {
         }
 
         let lpbal = vebals.find((x) => x.LP_addr === allocation.LP_addr);
-        if (!lpbal && !lpbal.balance) continue;
+        if (!lpbal || !lpbal.balance) continue;
         nft_allocations[allocation.nft_addr] +=
           parseFloat(allocation.percent) * parseFloat(lpbal.balance);
       }
