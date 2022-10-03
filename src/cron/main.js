@@ -56,11 +56,11 @@ async function sync() {
         if (!nft_allocations[allocation.nft_addr]) {
           nft_allocations[allocation.nft_addr] = 0;
         }
+
+        let lpbal = vebals.find((x) => x.LP_addr === allocation.LP_addr);
+        if (!lpbal && !lpbal.balance) continue;
         nft_allocations[allocation.nft_addr] +=
-          parseFloat(allocation.percent) *
-          parseFloat(
-            vebals.find((x) => x.LP_addr === allocation.LP_addr).balance
-          );
+          parseFloat(allocation.percent) * parseFloat(lpbal.balance);
       }
       for (let n of nftinfo) {
         n.ve_allocated = nft_allocations[n.nft_addr] ?? 0; // consider 0 if no allocations
