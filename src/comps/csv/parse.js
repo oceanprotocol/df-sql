@@ -21,11 +21,7 @@ function parseCsv(path) {
   let keys = firstRow.split(",").map(cleanText);
 
   rows.forEach((x) => {
-    x = x.split(",");
-    if (x.length > keys.length) {
-      x[keys.length - 1] += x.slice(keys.length).join(",");
-    }
-    x = x.map(cleanText)
+    x = x.split(",").map(cleanText);
     if (x.some((p) => !p)) return;
     let obj = createObject(keys, x);
     result.push(obj);
