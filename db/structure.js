@@ -17,6 +17,7 @@ var nftinfoTable = `CREATE TABLE nft_info(
     ,nft_addr      VARCHAR(94) NOT NULL
     ,did      VARCHAR(200) NOT NULL
     ,symbol      VARCHAR(50) NOT NULL
+    ,name      VARCHAR(350) NOT NULL
    ,ve_allocated  FLOAT(94,10)
    ,volume  FLOAT(94,10)
    ,PRIMARY KEY(chainID, nft_addr) );`;
@@ -35,9 +36,9 @@ var rewardsInfo = `CREATE TABLE rewards_info(
   PRIMARY KEY(chainID, nft_addr, LP_addr, token))`;
 
 module.exports = {
-  allocationsTable,
-  nftVolsTable,
-  vebalsTable,
-  rewardsInfo,
-  nftinfoTable,
+   allocationsTable,
+   nftVolsTable,
+   vebalsTable,
+   rewardsInfo,
+   nftinfoTable,
 };
