@@ -12,8 +12,15 @@ async function updateDb(data, dbname) {
     let values = Object.values(element);
 
     let query = `INSERT INTO ${dbname} (${keys.join(", ")}) VALUES (${values
-      .map((x) =>
-        isNaN(x) || x.toString().startsWith("0x") ? `"${x}"` : parseFloat(x)
+      .map((x) => {
+        if (isNaN(x) || x.toString().startsWith("0x")) {
+          let str = `"${x}"`
+          str = db.escape(str)
+          return str
+        } else {
+          return parseFloat(x)
+        }
+      }
       )
       .join(", ")})`;
 
