@@ -15,6 +15,7 @@ async function updateDb(data, dbname) {
       .map((x) => {
         if (isNaN(x) || x.toString().startsWith("0x")) {
           let str = `"${x}"`
+          str = str.replace(/%@#/g, ',');
           str = db.escape(str)
           return str
         } else {
