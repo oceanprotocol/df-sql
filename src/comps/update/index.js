@@ -14,7 +14,7 @@ async function updateDb(data, dbname) {
     let query = `INSERT INTO ${dbname} (${keys.join(", ")}) VALUES (${values
       .map((x) => {
         if (isNaN(x) || x.toString().startsWith("0x")) {
-          let str = `"${x}"`
+          let str = `${x}`
           str = str.replace(/%@#/g, ',');
           str = db.escape(str)
           return str
