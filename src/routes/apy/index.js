@@ -1,10 +1,15 @@
 const express = require("express");
 const { readStorage } = require("../../comps/fs/storage");
+const { getActiveApy, getApyByAddr } = require("../../services/apy");
 const router = express.Router();
 
-router.get("/active", async (req, res) => {
-    let data = readStorage("generalApy");
-    res.json({ apy: data });
+router.get("/active", (req, res) => {
+    res.json({ apy: getActiveApy() ?? 0 });
 });
+
+router.get("/addr/:addr", async (req, res) => {
+    let apy = await getApyByAddr(req.params.addr);
+    res.json({ apy: apy ?? 0 });
+})
 
 module.exports = router;
