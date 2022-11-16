@@ -1,6 +1,8 @@
 const croner = require("croner");
 const fs = require("fs");
+const { calcApyPerAsset, calcGeneralApy } = require("../comps/apy/calc");
 const { parseCsv } = require("../comps/csv/parse");
+const { saveStorage } = require("../comps/fs/storage");
 const { updateDb, cleanDb } = require("../comps/update");
 
 croner.Cron("0 */5 * * * *", () => {
@@ -48,6 +50,8 @@ async function sync() {
         symbols.push(...parseCsv(`${dataDir}${file}`));
       }
     }
+
+
 
     try {
       // find how much has been allocated to each data nft
@@ -107,6 +111,21 @@ async function sync() {
     } catch (error) {
       console.error("Error calculating nft volumes", error);
     }
+
+    try {
+      nftinfo = calcApyPerAsset({
+        nftinfo,
+        rewardsInfo
+      })
+      let generalApy = calcGeneralApy({
+        nftinfo,
+        rewardsInfo
+      })
+      saveStorage("generalApy", generalApy);
+    } catch (error) {
+      console.error("Error calculating APY", error);
+    }
+
 
     await cleanDb("allocations");
     await updateDb(allocations, "allocations");
