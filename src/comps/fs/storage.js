@@ -16,6 +16,7 @@ function loadStorage() {
 }
 
 function readStorage(key) {
+    if (!fs.existsSync(storage_file)) return null
     let storage = loadStorage()
     return storage[key]
 }
