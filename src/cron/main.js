@@ -15,8 +15,10 @@ async function sync() {
   console.log("Starting sync");
 
   let allocations = [];
+  let allocations_realtime = [];
   let nftvols = [];
   let vebals = [];
+  let vebals_realtime = [];
   let rewardsInfo = [];
   let nftinfo = [];
 
@@ -29,13 +31,21 @@ async function sync() {
     }
     for (let file of files) {
       if (file.includes("allocations")) {
-        allocations.push(...parseCsv(`${dataDir}${file}`));
+        if (file.includes("realtime")) {
+          allocations_realtime.push(...parseCsv(`${dataDir}${file}`));
+        } else {
+          allocations.push(...parseCsv(`${dataDir}${file}`));
+        }
       }
       if (file.includes("nftvols")) {
         nftvols.push(...parseCsv(`${dataDir}${file}`));
       }
       if (file.includes("vebals")) {
-        vebals.push(...parseCsv(`${dataDir}${file}`));
+        if (file.includes("realtime")) {
+          vebals_realtime.push(...parseCsv(`${dataDir}${file}`));
+        } else {
+          vebals.push(...parseCsv(`${dataDir}${file}`));
+        }
       }
       if (file.includes("rewardsinfo")) {
         rewardsInfo.push(...parseCsv(`${dataDir}${file}`));
@@ -68,8 +78,25 @@ async function sync() {
         nft_allocations[allocation.nft_addr] += ve_amt
         allocations[i].ve_amt = ve_amt
       })
+
+      let nft_allocations_realtime = {}; // nft addr : ve amount
+      for (let allocation of allocations_realtime) {
+        if (!nft_allocations_realtime[allocation.nft_addr]) {
+          nft_allocations_realtime[allocation.nft_addr] = 0;
+        }
+
+        let lpbal = vebals_realtime.find(
+          (x) => x.LP_addr === allocation.LP_addr
+        );
+        if (!lpbal || !lpbal.balance) continue;
+        nft_allocations_realtime[allocation.nft_addr] +=
+
+          parseFloat(allocation.percent) * parseFloat(lpbal.balance);
+      }
+
       for (let n of nftinfo) {
         n.ve_allocated = nft_allocations[n.nft_addr] ?? 0; // consider 0 if no allocations
+        n.ve_allocated_realtime = nft_allocations_realtime[n.nft_addr] ?? 0; // consider 0 if no allocations
       }
     } catch (error) {
       console.error("Error calculating nft allocations", error);

@@ -20,6 +20,7 @@ var nftinfoTable = `CREATE TABLE nft_info(
     ,symbol      VARCHAR(50) NOT NULL
     ,name      VARCHAR(350) NOT NULL
    ,ve_allocated  FLOAT(94,10)
+   ,ve_allocated_realtime  FLOAT(94,10)
    ,volume  FLOAT(94,10)
    ,apr  FLOAT(94,10)
    ,apy  FLOAT(94,10)
