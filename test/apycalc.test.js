@@ -14,7 +14,7 @@ test('test apy per asset', () => {
         {
             "amt": 1000,
             "nft_addr": "0x2"
-        },
+        }
     ]
 
     let nftinfo = [
@@ -25,6 +25,14 @@ test('test apy per asset', () => {
         {
             ve_allocated: 60000,
             nft_addr: "0x2"
+        },
+        {
+            ve_allocated: 0,
+            nft_addr: "0x2"
+        },
+        {
+            ve_allocated: 0,
+            nft_addr: "0x3"
         },
     ]
 
