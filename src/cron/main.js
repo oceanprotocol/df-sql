@@ -56,16 +56,18 @@ async function sync() {
     try {
       // find how much has been allocated to each data nft
       let nft_allocations = {}; // nft addr : ve amount
-      for (let allocation of allocations) {
+      allocations.forEach((allocation, i) => {
         if (!nft_allocations[allocation.nft_addr]) {
           nft_allocations[allocation.nft_addr] = 0;
         }
 
         let lpbal = vebals.find((x) => x.LP_addr === allocation.LP_addr);
-        if (!lpbal || !lpbal.balance) continue;
-        nft_allocations[allocation.nft_addr] +=
-          parseFloat(allocation.percent) * parseFloat(lpbal.balance);
-      }
+        allocations[i].ve_amt = 0
+        if (!lpbal || !lpbal.balance) return;
+        let ve_amt = parseFloat(allocation.percent) * parseFloat(lpbal.balance);
+        nft_allocations[allocation.nft_addr] += ve_amt
+        allocations[i].ve_amt = ve_amt
+      })
       for (let n of nftinfo) {
         n.ve_allocated = nft_allocations[n.nft_addr] ?? 0; // consider 0 if no allocations
       }
