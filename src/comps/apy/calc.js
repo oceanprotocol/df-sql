@@ -26,8 +26,13 @@ function calcApyPerAsset({ rewardsInfo, nftinfo }) {
 
         const nftRewards = rewardsInfo.filter((x) => x.nft_addr === nft.nft_addr)
         const nftRewardsAmt = nftRewards.reduce((acc, cur) => {
-            return acc + cur.amt
+            return acc + parseFloat(cur.amt)
         }, 0)
+        if (nftRewardsAmt === 0) {
+            nftinfo[i].apy = 0
+            nftinfo[i].apr = 0
+            return
+        }
         const nftApr = nftRewardsAmt / nft.ve_allocated;
         const nftApy = wprToApy(nftApr);
         nftinfo[i].apr = nftApr;
