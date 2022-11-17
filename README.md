@@ -1,4 +1,4 @@
-# SQL API for data farming
+# API for data farming
 
 
 
