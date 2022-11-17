@@ -5,18 +5,11 @@
 
 ## Endpoints
 
-<!-- ### POST `/pools`
-Queries `pool_info` table.  
-Queryable fields:
-```
-chainID,basetoken,pool_addr,vol_amt,stake_amt,nft_addr,DT_addr,DT_symbol,basetoken_addr,did,url
-``` -->
-
 ### POST `/allocations`
 Queries `allocations` table.
 Queryable fields:
 ```
-chainID,nft_addr,LP_addr,percent
+chainID,nft_addr,LP_addr,percent,ve_allocated
 ```
 
 ### POST `/volume`
@@ -30,7 +23,7 @@ chainID,basetoken_addr,nft_addr,vol_amt
 Queries `nft_info` table.
 Queryable fields:
 ```
-chainID,nft_addr,did,symbol,basetoken_addr,volume
+chainID,nft_addr,did,symbol,basetoken_addr,volume,ve_allocated,ve_allocated_realtime
 ```
 
 ### POST `/vebals`
