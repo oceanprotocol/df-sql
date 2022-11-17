@@ -141,7 +141,7 @@ Same as above + skips the first 10 DataNFTs.
 }
 ```
 
-Returns the reward amount per pool.
+Returns the reward amount per nft.
 
 ---
 
