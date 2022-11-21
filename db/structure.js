@@ -21,6 +21,7 @@ var nftinfoTable = `CREATE TABLE nft_info(
    ,ve_allocated  FLOAT(94,10)
    ,ve_allocated_realtime  FLOAT(94,10)
    ,volume  FLOAT(94,10)
+   ,is_purgatory  BOOLEAN
    ,PRIMARY KEY(chainID, nft_addr) );`;
 
 var vebalsTable = `CREATE TABLE vebals(
