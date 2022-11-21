@@ -59,6 +59,10 @@ async function sync() {
       }
     }
 
+    nftinfo.forEach((nft) => {
+      nft.is_purgatory = nft.is_purgatory === "1" ? "true" : "false";
+    });
+
     try {
       // find how much has been allocated to each data nft
       let nft_allocations = {}; // nft addr : ve amount
