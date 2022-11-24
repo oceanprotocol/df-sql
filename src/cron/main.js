@@ -1,6 +1,8 @@
 const croner = require("croner");
 const fs = require("fs");
+const { calcApyPerAsset, calcGeneralApy } = require("../comps/apy/calc");
 const { parseCsv } = require("../comps/csv/parse");
+const { saveStorage } = require("../comps/fs/storage");
 const { updateDb, cleanDb } = require("../comps/update");
 
 croner.Cron("0 */5 * * * *", () => {
@@ -59,19 +61,23 @@ async function sync() {
       }
     }
 
+
+
     try {
       // find how much has been allocated to each data nft
       let nft_allocations = {}; // nft addr : ve amount
-      for (let allocation of allocations) {
+      allocations.forEach((allocation, i) => {
         if (!nft_allocations[allocation.nft_addr]) {
           nft_allocations[allocation.nft_addr] = 0;
         }
 
         let lpbal = vebals.find((x) => x.LP_addr === allocation.LP_addr);
-        if (!lpbal || !lpbal.balance) continue;
-        nft_allocations[allocation.nft_addr] +=
-          parseFloat(allocation.percent) * parseFloat(lpbal.balance);
-      }
+        allocations[i].ve_amt = 0
+        if (!lpbal || !lpbal.balance) return;
+        let ve_amt = parseFloat(allocation.percent) * parseFloat(lpbal.balance);
+        nft_allocations[allocation.nft_addr] += ve_amt
+        allocations[i].ve_amt = ve_amt
+      })
 
       let nft_allocations_realtime = {}; // nft addr : ve amount
       for (let allocation of allocations_realtime) {
@@ -134,6 +140,21 @@ async function sync() {
     } catch (error) {
       console.error("Error calculating nft volumes", error);
     }
+
+    try {
+      nftinfo = calcApyPerAsset({
+        nftinfo,
+        rewardsInfo
+      })
+      let generalApy = calcGeneralApy({
+        nftinfo,
+        rewardsInfo
+      })
+      saveStorage("generalApy", generalApy);
+    } catch (error) {
+      console.error("Error calculating APY", error);
+    }
+
 
     await cleanDb("allocations");
     await updateDb(allocations, "allocations");
