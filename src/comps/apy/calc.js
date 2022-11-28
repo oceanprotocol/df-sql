@@ -1,13 +1,10 @@
 function wprToApy(wpr) {
-    let weeks = 52;
-    let apy = Math.pow(1 + wpr, weeks) - 1;
+    let weeks = 52
+    let apy = Math.pow(1 + wpr, weeks) - 1
     return apy
 }
 
-function calcGeneralApy({
-    rewardsInfo,
-    nftinfo,
-}) {
+function calcGeneralApy({ rewardsInfo, nftinfo }) {
     const totalRewards = rewardsInfo.reduce((acc, cur) => {
         return acc + parseFloat(cur.amt)
     }, 0)
@@ -15,16 +12,17 @@ function calcGeneralApy({
         return acc + parseFloat(cur.ve_allocated)
     }, 0)
 
-    const generalApr = totalRewards / totalAllocatedVe;
-    const generalApy = wprToApy(generalApr);
+    const generalApr = totalRewards / totalAllocatedVe
+    const generalApy = wprToApy(generalApr)
 
     return generalApy
 }
 
 function calcApyPerAsset({ rewardsInfo, nftinfo }) {
     nftinfo.forEach((nft, i) => {
-
-        const nftRewards = rewardsInfo.filter((x) => x.nft_addr === nft.nft_addr)
+        const nftRewards = rewardsInfo.filter(
+            (x) => x.nft_addr === nft.nft_addr
+        )
         const nftRewardsAmt = nftRewards.reduce((acc, cur) => {
             return acc + parseFloat(cur.amt)
         }, 0)
@@ -33,11 +31,11 @@ function calcApyPerAsset({ rewardsInfo, nftinfo }) {
             nftinfo[i].apr = 0
             return
         }
-        const nftApr = nftRewardsAmt / nft.ve_allocated;
-        const nftApy = wprToApy(nftApr);
-        nftinfo[i].apr = nftApr;
-        nftinfo[i].apy = nftApy;
-    });
+        const nftApr = nftRewardsAmt / nft.ve_allocated
+        const nftApy = wprToApy(nftApr)
+        nftinfo[i].apr = nftApr
+        nftinfo[i].apy = nftApy
+    })
     return nftinfo
 }
 

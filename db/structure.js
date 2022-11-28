@@ -5,7 +5,7 @@ var allocationsTable = `CREATE TABLE allocations(
     ,percent        FLOAT(94,10) NOT NULL
     ,ve_amt        FLOAT(94,10)
     ,round         INT NOT NULL
-   ,PRIMARY KEY(chainID, nft_addr, LP_addr, round) );`;
+   ,PRIMARY KEY(chainID, nft_addr, LP_addr, round) );`
 
 var nftVolsTable = `CREATE TABLE nft_vols(
     chainID        INT  NOT NULL
@@ -13,7 +13,7 @@ var nftVolsTable = `CREATE TABLE nft_vols(
    ,nft_addr      VARCHAR(94) NOT NULL
    ,vol_amt        FLOAT(94,10) NOT NULL
    ,round         INT NOT NULL
-   ,PRIMARY KEY(chainID, nft_addr, basetoken_addr, round) );`;
+   ,PRIMARY KEY(chainID, nft_addr, basetoken_addr, round) );`
 
 var nftinfoTable = `CREATE TABLE nft_info(
     chainID        INT  NOT NULL
@@ -27,13 +27,13 @@ var nftinfoTable = `CREATE TABLE nft_info(
    ,apr  FLOAT(94,10)
    ,apy  FLOAT(94,10)
    ,round         INT NOT NULL
-   ,PRIMARY KEY(chainID, nft_addr, round) );`;
+   ,PRIMARY KEY(chainID, nft_addr, round) );`
 
 var vebalsTable = `CREATE TABLE vebals(
    LP_addr        VARCHAR(94) NOT NULL
    ,balance      FLOAT(94,10) NOT NULL
    ,round         INT NOT NULL
-   ,PRIMARY KEY(LP_addr, round) )`;
+   ,PRIMARY KEY(LP_addr, round) )`
 
 var rewardsInfo = `CREATE TABLE rewards_info(
   chainID INT NOT NULL,
@@ -42,12 +42,12 @@ var rewardsInfo = `CREATE TABLE rewards_info(
   amt FLOAT(94, 10) NOT NULL,
   token VARCHAR(94) NOT NULL,
   round         INT NOT NULL,
-  PRIMARY KEY(chainID, nft_addr, LP_addr, token, round))`;
+  PRIMARY KEY(chainID, nft_addr, LP_addr, token, round))`
 
 module.exports = {
-   allocationsTable,
-   nftVolsTable,
-   vebalsTable,
-   rewardsInfo,
-   nftinfoTable,
-};
+    allocationsTable,
+    nftVolsTable,
+    vebalsTable,
+    rewardsInfo,
+    nftinfoTable
+}
