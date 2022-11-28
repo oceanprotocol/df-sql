@@ -1,15 +1,17 @@
-const { parseCsv } = require("../csv/parse")
 const db = require("../../db")
 
-async function cleanDb(dbname) {
-    await db.promise().query(`DELETE FROM ${dbname}`)
+async function cleanDb(dbname, round) {
+    await db.promise().query(`DELETE FROM ${dbname} WHERE round = ?`, [round])
 }
 
-async function updateDb(data, dbname) {
+async function updateDb(data, dbname, round) {
     console.log("Updating db", dbname)
     data.forEach(async (element) => {
         let keys = Object.keys(element)
         let values = Object.values(element)
+
+        keys.push("round")
+        values.push(round)
 
         let query = `INSERT INTO ${dbname} (${keys.join(", ")}) VALUES (${values
             .map((x) => {
