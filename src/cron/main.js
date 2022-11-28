@@ -1,7 +1,7 @@
 const croner = require("croner");
-const fs = require("fs");
 const { calcApyPerAsset, calcGeneralApy } = require("../comps/apy/calc");
-const { parseCsv } = require("../comps/csv/parse");
+const { calculateAllocations, calculateVolumes } = require("../comps/calc/data");
+const { readDataDir } = require("../comps/fs/dir");
 const { saveStorage } = require("../comps/fs/storage");
 const { updateDb, cleanDb } = require("../comps/update");
 
@@ -14,161 +14,69 @@ const dataDir = "/csv/";
 async function sync() {
   console.log("Starting sync");
 
-  let allocations = [];
-  let allocations_realtime = [];
-  let nftvols = [];
-  let vebals = [];
-  let vebals_realtime = [];
-  let rewardsInfo = [];
-  let nftinfo = [];
-
-  let rates = [];
-  let symbols = [];
-
-  fs.readdir(dataDir, async (err, files) => {
-    if (err) {
-      throw err;
-    }
-    for (let file of files) {
-      if (file.includes("allocations")) {
-        if (file.includes("realtime")) {
-          allocations_realtime.push(...parseCsv(`${dataDir}${file}`));
-        } else {
-          allocations.push(...parseCsv(`${dataDir}${file}`));
-        }
-      }
-      if (file.includes("nftvols")) {
-        nftvols.push(...parseCsv(`${dataDir}${file}`));
-      }
-      if (file.includes("vebals")) {
-        if (file.includes("realtime")) {
-          vebals_realtime.push(...parseCsv(`${dataDir}${file}`));
-        } else {
-          vebals.push(...parseCsv(`${dataDir}${file}`));
-        }
-      }
-      if (file.includes("rewardsinfo")) {
-        rewardsInfo.push(...parseCsv(`${dataDir}${file}`));
-      }
-      if (file.includes("nftinfo")) {
-        nftinfo.push(...parseCsv(`${dataDir}${file}`));
-      }
-      if (file.includes("rate-")) {
-        rates.push(...parseCsv(`${dataDir}${file}`));
-      }
-      if (file.includes("symbols-")) {
-        symbols.push(...parseCsv(`${dataDir}${file}`));
-      }
-    }
+  let {
+    allocations,
+    allocations_realtime,
+    nftvols,
+    vebals,
+    vebals_realtime,
+    rewardsInfo,
+    nftinfo,
+    rates,
+    symbols,
+  } = readDataDir(dataDir);
 
 
+  try {
+    nftinfo = calculateAllocations({
+      allocations,
+      vebals_realtime,
+      allocations_realtime,
+      allocations,
+      vebals,
+      nftinfo
+    })
+  } catch (error) {
+    console.error("Error calculating nft allocations", error);
+  }
 
-    try {
-      // find how much has been allocated to each data nft
-      let nft_allocations = {}; // nft addr : ve amount
-      allocations.forEach((allocation, i) => {
-        if (!nft_allocations[allocation.nft_addr]) {
-          nft_allocations[allocation.nft_addr] = 0;
-        }
+  try {
+    nftvols = calculateVolumes({
+      nftvols,
+      rates,
+      symbols
+    })
+  } catch (error) {
+    console.error("Error calculating nft volumes", error);
+  }
 
-        let lpbal = vebals.find((x) => x.LP_addr === allocation.LP_addr);
-        allocations[i].ve_amt = 0
-        if (!lpbal || !lpbal.balance) return;
-        let ve_amt = parseFloat(allocation.percent) * parseFloat(lpbal.balance);
-        nft_allocations[allocation.nft_addr] += ve_amt
-        allocations[i].ve_amt = ve_amt
-      })
-
-      let nft_allocations_realtime = {}; // nft addr : ve amount
-      for (let allocation of allocations_realtime) {
-        if (!nft_allocations_realtime[allocation.nft_addr]) {
-          nft_allocations_realtime[allocation.nft_addr] = 0;
-        }
-
-        let lpbal = vebals_realtime.find(
-          (x) => x.LP_addr === allocation.LP_addr
-        );
-        if (!lpbal || !lpbal.balance) continue;
-        nft_allocations_realtime[allocation.nft_addr] +=
-
-          parseFloat(allocation.percent) * parseFloat(lpbal.balance);
-      }
-
-      for (let n of nftinfo) {
-        n.ve_allocated = nft_allocations[n.nft_addr] ?? 0; // consider 0 if no allocations
-        n.ve_allocated_realtime = nft_allocations_realtime[n.nft_addr] ?? 0; // consider 0 if no allocations
-      }
-    } catch (error) {
-      console.error("Error calculating nft allocations", error);
-    }
-
-    try {
-      for (let n of nftinfo) {
-        n.volume = nftvols.reduce((acc, x) => {
-          if (x.nft_addr === n.nft_addr) {
-            let baseTokenSymbol = symbols.find(
-              (y) => y.token_addr === x.basetoken_addr
-            );
-
-            if (!baseTokenSymbol) {
-              console.error(
-                `No symbol found for ${x.basetoken_addr} in ${n.nft_addr}`
-              );
-              return acc;
-            }
-
-            let token_symbol = baseTokenSymbol.token_symbol;
-            let rate = rates.find(
-              //TODO make this look good later
-              (x) =>
-                x.token_symbol.replace("M", "") ===
-                token_symbol.replace("M", "")
-            );
-
-            if (!rate) {
-              console.error(
-                `No rate found for ${token_symbol} in ${n.nft_addr}`
-              );
-              return acc;
-            }
-
-            return acc + parseFloat(x.vol_amt) * parseFloat(rate.rate);
-          }
-          return acc;
-        }, 0);
-      }
-    } catch (error) {
-      console.error("Error calculating nft volumes", error);
-    }
-
-    try {
-      nftinfo = calcApyPerAsset({
-        nftinfo,
-        rewardsInfo
-      })
-      let generalApy = calcGeneralApy({
-        nftinfo,
-        rewardsInfo
-      })
-      saveStorage("generalApy", generalApy);
-    } catch (error) {
-      console.error("Error calculating APY", error);
-    }
+  try {
+    nftinfo = calcApyPerAsset({
+      nftinfo,
+      rewardsInfo
+    })
+    let generalApy = calcGeneralApy({
+      nftinfo,
+      rewardsInfo
+    })
+    saveStorage("generalApy", generalApy);
+  } catch (error) {
+    console.error("Error calculating APY", error);
+  }
 
 
-    await cleanDb("allocations");
-    await updateDb(allocations, "allocations");
+  await cleanDb("allocations");
+  await updateDb(allocations, "allocations");
 
-    await cleanDb("nft_vols");
-    await updateDb(nftvols, "nft_vols");
+  await cleanDb("nft_vols");
+  await updateDb(nftvols, "nft_vols");
 
-    await cleanDb("vebals");
-    await updateDb(vebals, "vebals");
+  await cleanDb("vebals");
+  await updateDb(vebals, "vebals");
 
-    await cleanDb("rewards_info");
-    await updateDb(rewardsInfo, "rewards_info");
+  await cleanDb("rewards_info");
+  await updateDb(rewardsInfo, "rewards_info");
 
-    await cleanDb("nft_info");
-    await updateDb(nftinfo, "nft_info");
-  });
+  await cleanDb("nft_info");
+  await updateDb(nftinfo, "nft_info");
 }
