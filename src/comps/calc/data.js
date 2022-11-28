@@ -43,3 +43,52 @@ const calculateAllocations = (
     })
     return nftinfo
 }
+
+
+const calculateVolumes = (
+    {
+        rates,
+        symbols,
+        nftvols
+    }
+) => {
+    nftvols.forEach((n, i) => {
+        nftvols[i].volume = nftvols.reduce((acc, x) => {
+            if (x.nft_addr === n.nft_addr) {
+                let baseTokenSymbol = symbols.find(
+                    (y) => y.token_addr === x.basetoken_addr
+                );
+
+                if (!baseTokenSymbol) {
+                    console.error(
+                        `No symbol found for ${x.basetoken_addr} in ${n.nft_addr}`
+                    );
+                    return acc;
+                }
+
+                let token_symbol = baseTokenSymbol.token_symbol;
+                let rate = rates.find(
+                    (x) =>
+                        x.token_symbol.replace("M", "") ===
+                        token_symbol.replace("M", "")
+                );
+
+                if (!rate) {
+                    console.error(
+                        `No rate found for ${token_symbol} in ${n.nft_addr}`
+                    );
+                    return acc;
+                }
+
+                return acc + parseFloat(x.vol_amt) * parseFloat(rate.rate);
+            }
+            return acc;
+        }, 0);
+    })
+    return nftvols
+}
+
+module.exports = {
+    calculateAllocations,
+    calculateVolumes
+}
