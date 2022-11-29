@@ -1,7 +1,7 @@
 const { selectQuery } = require("../querier")
 
 const getAllocations = ({
-    query,
+    query = { round: 0 },
     sort,
     limit,
     offset,

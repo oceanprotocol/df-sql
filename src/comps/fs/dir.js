@@ -1,5 +1,6 @@
 const fs = require("fs")
 const { parseCsv } = require("../csv/parse")
+const crypto = require("crypto")
 
 function readDataDir(dataDir) {
     let allocations = []
@@ -14,6 +15,7 @@ function readDataDir(dataDir) {
     let symbols = []
 
     let files = fs.readdirSync(dataDir)
+    let hashsum = ""
     for (let file of files) {
         if (file.includes("allocations")) {
             if (file.includes("realtime")) {
@@ -21,29 +23,28 @@ function readDataDir(dataDir) {
             } else {
                 allocations.push(...parseCsv(`${dataDir}${file}`))
             }
-        }
-        if (file.includes("nftvols")) {
+        } else if (file.includes("nftvols")) {
             nftvols.push(...parseCsv(`${dataDir}${file}`))
-        }
-        if (file.includes("vebals")) {
+        } else if (file.includes("vebals")) {
             if (file.includes("realtime")) {
                 vebals_realtime.push(...parseCsv(`${dataDir}${file}`))
             } else {
                 vebals.push(...parseCsv(`${dataDir}${file}`))
             }
-        }
-        if (file.includes("rewardsinfo")) {
+        } else if (file.includes("rewardsinfo")) {
             rewardsInfo.push(...parseCsv(`${dataDir}${file}`))
-        }
-        if (file.includes("nftinfo")) {
+        } else if (file.includes("nftinfo")) {
             nftinfo.push(...parseCsv(`${dataDir}${file}`))
-        }
-        if (file.includes("rate-")) {
+        } else if (file.includes("rate-")) {
             rates.push(...parseCsv(`${dataDir}${file}`))
-        }
-        if (file.includes("symbols-")) {
+        } else if (file.includes("symbols-")) {
             symbols.push(...parseCsv(`${dataDir}${file}`))
-        }
+        } else continue
+
+        let hash = crypto.createHash("sha256")
+        let fileData = fs.readFileSync(dataDir + "/" + file)
+        hash.update(fileData + dataDir)
+        hashsum += hash.digest("hex")
     }
 
     return {
@@ -55,7 +56,8 @@ function readDataDir(dataDir) {
         rewardsInfo,
         nftinfo,
         rates,
-        symbols
+        symbols,
+        hashsum
     }
 }
 

@@ -5,13 +5,17 @@ async function cleanDb(dbname, round) {
 }
 
 async function updateDb(data, dbname, round) {
-    console.log("Updating db", dbname)
+    console.log("Updating db", dbname, round, data.length)
     data.forEach(async (element) => {
         let keys = Object.keys(element)
         let values = Object.values(element)
 
         keys.push("round")
         values.push(round)
+
+        if (dbname == "nft_vols") {
+            console.log("nftvols", round, keys, values)
+        }
 
         let query = `INSERT INTO ${dbname} (${keys.join(", ")}) VALUES (${values
             .map((x) => {

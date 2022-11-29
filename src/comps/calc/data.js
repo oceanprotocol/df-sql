@@ -42,9 +42,9 @@ const calculateAllocations = ({
     return nftinfo
 }
 
-const calculateVolumes = ({ rates, symbols, nftvols }) => {
-    nftvols.forEach((n, i) => {
-        nftvols[i].volume_usd = nftvols.reduce((acc, x) => {
+const calculateVolumes = ({ rates, symbols, nftvols, nftinfo }) => {
+    nftinfo.forEach((n, i) => {
+        nftinfo[i].volume = nftvols.reduce((acc, x) => {
             if (x.nft_addr === n.nft_addr) {
                 let baseTokenSymbol = symbols.find(
                     (y) => y.token_addr === x.basetoken_addr
@@ -76,7 +76,7 @@ const calculateVolumes = ({ rates, symbols, nftvols }) => {
             return acc
         }, 0)
     })
-    return nftvols
+    return nftinfo
 }
 
 module.exports = {

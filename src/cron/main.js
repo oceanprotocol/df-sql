@@ -1,74 +1,23 @@
 const croner = require("croner")
-const { calcApyPerAsset, calcGeneralApy } = require("../comps/apy/calc")
-const { calculateAllocations, calculateVolumes } = require("../comps/calc/data")
-const { readDataDir } = require("../comps/fs/dir")
-const { saveStorage } = require("../comps/fs/storage")
-const { batchUpdateRound } = require("../comps/update/batch")
+const { sync } = require("../comps/update/sync")
+const fs = require("fs")
+const dataDir = "/csv/"
+const histDataDir = "/csv/historical/"
 
-croner.Cron("0 */5 * * * *", () => {
-    sync()
+croner.Cron("0 */5 * * * *", async () => {
+    await sync(dataDir, 0)
 })
 
-const dataDir = "/csv/"
+croner.Cron("0 */1 * * * *", async () => {
+    await sync_historical()
+})
 
-async function sync() {
-    console.log("Starting sync")
-
-    let {
-        allocations,
-        allocations_realtime,
-        nftvols,
-        vebals,
-        vebals_realtime,
-        rewardsInfo,
-        nftinfo,
-        rates,
-        symbols
-    } = readDataDir(dataDir)
-
-    try {
-        nftinfo = calculateAllocations({
-            allocations,
-            vebals_realtime,
-            allocations_realtime,
-            allocations,
-            vebals,
-            nftinfo
-        })
-    } catch (error) {
-        console.error("Error calculating nft allocations", error)
-    }
-
-    try {
-        nftvols = calculateVolumes({
-            nftvols,
-            rates,
-            symbols
-        })
-    } catch (error) {
-        console.error("Error calculating nft volumes", error)
-    }
-
-    try {
-        nftinfo = calcApyPerAsset({
-            nftinfo,
-            rewardsInfo
-        })
-        let generalApy = calcGeneralApy({
-            nftinfo,
-            rewardsInfo
-        })
-        saveStorage("generalApy", generalApy)
-    } catch (error) {
-        console.error("Error calculating APY", error)
-    }
-
-    await batchUpdateRound({
-        allocations,
-        nftvols,
-        vebals,
-        rewardsInfo,
-        nftinfo,
-        roundNumber: 0 // 0 is the current round
+async function sync_historical() {
+    let folders = fs.readdirSync(histDataDir)
+    folders.forEach(async (folder) => {
+        let roundNumber = parseInt(folder)
+        if (roundNumber) {
+            await sync(histDataDir + folder + "/", roundNumber)
+        }
     })
 }
