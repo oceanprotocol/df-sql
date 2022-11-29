@@ -1,3 +1,5 @@
+const { cleanDb, updateDb } = require("../update/index")
+
 const batchUpdateRound = async ({
     allocations,
     nftvols,
@@ -21,3 +23,5 @@ const batchUpdateRound = async ({
     await cleanDb("nft_info", roundNumber)
     await updateDb(nftinfo, "nft_info", roundNumber)
 }
+
+module.exports = { batchUpdateRound }

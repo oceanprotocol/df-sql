@@ -3,7 +3,7 @@ const { calcApyPerAsset, calcGeneralApy } = require("../comps/apy/calc")
 const { calculateAllocations, calculateVolumes } = require("../comps/calc/data")
 const { readDataDir } = require("../comps/fs/dir")
 const { saveStorage } = require("../comps/fs/storage")
-const { updateDb, cleanDb } = require("../comps/update")
+const { batchUpdateRound } = require("../comps/update/batch")
 
 croner.Cron("0 */5 * * * *", () => {
     sync()
