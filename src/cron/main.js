@@ -1,157 +1,23 @@
-const croner = require("croner");
-const fs = require("fs");
-const { parseCsv } = require("../comps/csv/parse");
-const { updateDb, cleanDb } = require("../comps/update");
+const croner = require("croner")
+const { sync } = require("../comps/update/sync")
+const fs = require("fs")
+const dataDir = "/csv/"
+const histDataDir = "/csv/historical/"
 
-croner.Cron("0 */5 * * * *", () => {
-  sync();
-});
+croner.Cron("0 */5 * * * *", async () => {
+    await sync(dataDir, 0)
+})
 
-const dataDir = "/csv/";
+croner.Cron("0 */1 * * * *", async () => {
+    await sync_historical()
+})
 
-async function sync() {
-  console.log("Starting sync");
-
-  let allocations = [];
-  let allocations_realtime = [];
-  let nftvols = [];
-  let vebals = [];
-  let vebals_realtime = [];
-  let rewardsInfo = [];
-  let nftinfo = [];
-
-  let rates = [];
-  let symbols = [];
-
-  fs.readdir(dataDir, async (err, files) => {
-    if (err) {
-      throw err;
-    }
-    for (let file of files) {
-      if (file.includes("allocations")) {
-        if (file.includes("realtime")) {
-          allocations_realtime.push(...parseCsv(`${dataDir}${file}`));
-        } else {
-          allocations.push(...parseCsv(`${dataDir}${file}`));
+async function sync_historical() {
+    let folders = fs.readdirSync(histDataDir)
+    folders.forEach(async (folder) => {
+        let roundNumber = parseInt(folder)
+        if (roundNumber) {
+            await sync(histDataDir + folder + "/", roundNumber)
         }
-      }
-      if (file.includes("nftvols")) {
-        nftvols.push(...parseCsv(`${dataDir}${file}`));
-      }
-      if (file.includes("vebals")) {
-        if (file.includes("realtime")) {
-          vebals_realtime.push(...parseCsv(`${dataDir}${file}`));
-        } else {
-          vebals.push(...parseCsv(`${dataDir}${file}`));
-        }
-      }
-      if (file.includes("rewardsinfo")) {
-        rewardsInfo.push(...parseCsv(`${dataDir}${file}`));
-      }
-      if (file.includes("nftinfo")) {
-        nftinfo.push(...parseCsv(`${dataDir}${file}`));
-      }
-      if (file.includes("rate-")) {
-        rates.push(...parseCsv(`${dataDir}${file}`));
-      }
-      if (file.includes("symbols-")) {
-        symbols.push(...parseCsv(`${dataDir}${file}`));
-      }
-    }
-
-    nftinfo.forEach((nft) => {
-      nft.is_purgatory = nft.is_purgatory === "1" ? "true" : "false";
-    });
-
-    try {
-      // find how much has been allocated to each data nft
-      let nft_allocations = {}; // nft addr : ve amount
-      for (let allocation of allocations) {
-        if (!nft_allocations[allocation.nft_addr]) {
-          nft_allocations[allocation.nft_addr] = 0;
-        }
-
-        let lpbal = vebals.find((x) => x.LP_addr === allocation.LP_addr);
-        if (!lpbal || !lpbal.balance) continue;
-        nft_allocations[allocation.nft_addr] +=
-          parseFloat(allocation.percent) * parseFloat(lpbal.balance);
-      }
-
-      let nft_allocations_realtime = {}; // nft addr : ve amount
-      for (let allocation of allocations_realtime) {
-        if (!nft_allocations_realtime[allocation.nft_addr]) {
-          nft_allocations_realtime[allocation.nft_addr] = 0;
-        }
-
-        let lpbal = vebals_realtime.find(
-          (x) => x.LP_addr === allocation.LP_addr
-        );
-        if (!lpbal || !lpbal.balance) continue;
-        nft_allocations_realtime[allocation.nft_addr] +=
-
-          parseFloat(allocation.percent) * parseFloat(lpbal.balance);
-      }
-
-      for (let n of nftinfo) {
-        n.ve_allocated = nft_allocations[n.nft_addr] ?? 0; // consider 0 if no allocations
-        n.ve_allocated_realtime = nft_allocations_realtime[n.nft_addr] ?? 0; // consider 0 if no allocations
-      }
-    } catch (error) {
-      console.error("Error calculating nft allocations", error);
-    }
-
-    try {
-      for (let n of nftinfo) {
-        n.volume = nftvols.reduce((acc, x) => {
-          if (x.nft_addr === n.nft_addr) {
-            let baseTokenSymbol = symbols.find(
-              (y) => y.token_addr === x.basetoken_addr
-            );
-
-            if (!baseTokenSymbol) {
-              console.error(
-                `No symbol found for ${x.basetoken_addr} in ${n.nft_addr}`
-              );
-              return acc;
-            }
-
-            let token_symbol = baseTokenSymbol.token_symbol;
-            let rate = rates.find(
-              //TODO make this look good later
-              (x) =>
-                x.token_symbol.replace("M", "") ===
-                token_symbol.replace("M", "")
-            );
-
-            if (!rate) {
-              console.error(
-                `No rate found for ${token_symbol} in ${n.nft_addr}`
-              );
-              return acc;
-            }
-
-            return acc + parseFloat(x.vol_amt) * parseFloat(rate.rate);
-          }
-          return acc;
-        }, 0);
-      }
-    } catch (error) {
-      console.error("Error calculating nft volumes", error);
-    }
-
-    await cleanDb("allocations");
-    await updateDb(allocations, "allocations");
-
-    await cleanDb("nft_vols");
-    await updateDb(nftvols, "nft_vols");
-
-    await cleanDb("vebals");
-    await updateDb(vebals, "vebals");
-
-    await cleanDb("rewards_info");
-    await updateDb(rewardsInfo, "rewards_info");
-
-    await cleanDb("nft_info");
-    await updateDb(nftinfo, "nft_info");
-  });
+    })
 }

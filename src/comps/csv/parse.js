@@ -1,33 +1,33 @@
-const fs = require("fs");
+const fs = require("fs")
 
-const cleanText = (text) => text.replace(/(\r\n|\n|\r)/gm, "");
+const cleanText = (text) => text.replace(/(\r\n|\n|\r)/gm, "")
 
 function createObject(keys, data) {
-  let o = {};
-  keys.forEach((_, y) => {
-    o[keys[y]] = data[y];
-  });
+    let o = {}
+    keys.forEach((_, y) => {
+        o[keys[y]] = data[y]
+    })
 
-  return o;
+    return o
 }
 
 function parseCsv(path) {
-  let result = [];
+    let result = []
 
-  let data = fs.readFileSync(path, "utf-8");
-  let rows = data.split("\n");
+    let data = fs.readFileSync(path, "utf-8")
+    let rows = data.split("\n")
 
-  let firstRow = rows.shift();
-  let keys = firstRow.split(",").map(cleanText);
+    let firstRow = rows.shift()
+    let keys = firstRow.split(",").map(cleanText)
 
-  rows.forEach((x) => {
-    x = x.split(",").map(cleanText);
-    if (x.some((p) => !p)) return;
-    let obj = createObject(keys, x);
-    result.push(obj);
-  });
+    rows.forEach((x) => {
+        x = x.split(",").map(cleanText)
+        if (x.some((p) => !p)) return
+        let obj = createObject(keys, x)
+        result.push(obj)
+    })
 
-  return result;
+    return result
 }
 
-module.exports = { parseCsv };
+module.exports = { parseCsv }

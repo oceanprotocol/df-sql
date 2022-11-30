@@ -2,15 +2,18 @@ var allocationsTable = `CREATE TABLE allocations(
     chainID        INT  NOT NULL
     ,nft_addr      VARCHAR(94) NOT NULL
     ,LP_addr      VARCHAR(94) NOT NULL
-    ,percent        FLOAT(94,10) NOT NULL,
-   PRIMARY KEY(chainID, nft_addr, LP_addr) );`;
+    ,percent        FLOAT(94,10) NOT NULL
+    ,ve_amt        FLOAT(94,10)
+    ,round         INT NOT NULL
+   ,PRIMARY KEY(chainID, nft_addr, LP_addr, round) );`
 
 var nftVolsTable = `CREATE TABLE nft_vols(
     chainID        INT  NOT NULL
    ,basetoken_addr      VARCHAR(94) NOT NULL
    ,nft_addr      VARCHAR(94) NOT NULL
-   ,vol_amt        FLOAT(94,10) NOT NULL,
-   PRIMARY KEY(chainID, nft_addr, basetoken_addr) );`;
+   ,vol_amt        FLOAT(94,10) NOT NULL
+   ,round         INT NOT NULL
+   ,PRIMARY KEY(chainID, nft_addr, basetoken_addr, round) );`
 
 var nftinfoTable = `CREATE TABLE nft_info(
     chainID        INT  NOT NULL
@@ -22,12 +25,16 @@ var nftinfoTable = `CREATE TABLE nft_info(
    ,ve_allocated_realtime  FLOAT(94,10)
    ,volume  FLOAT(94,10)
    ,is_purgatory  BOOLEAN
-   ,PRIMARY KEY(chainID, nft_addr) );`;
+   ,apr  FLOAT(94,10)
+   ,apy  FLOAT(94,10)
+   ,round         INT NOT NULL
+   ,PRIMARY KEY(chainID, nft_addr, round) );`
 
 var vebalsTable = `CREATE TABLE vebals(
    LP_addr        VARCHAR(94) NOT NULL
    ,balance      FLOAT(94,10) NOT NULL
-   ,PRIMARY KEY(LP_addr) )`;
+   ,round         INT NOT NULL
+   ,PRIMARY KEY(LP_addr, round) )`
 
 var rewardsInfo = `CREATE TABLE rewards_info(
   chainID INT NOT NULL,
@@ -35,12 +42,13 @@ var rewardsInfo = `CREATE TABLE rewards_info(
   nft_addr VARCHAR(94) NOT NULL,
   amt FLOAT(94, 10) NOT NULL,
   token VARCHAR(94) NOT NULL,
-  PRIMARY KEY(chainID, nft_addr, LP_addr, token))`;
+  round         INT NOT NULL,
+  PRIMARY KEY(chainID, nft_addr, LP_addr, token, round))`
 
 module.exports = {
-   allocationsTable,
-   nftVolsTable,
-   vebalsTable,
-   rewardsInfo,
-   nftinfoTable,
-};
+    allocationsTable,
+    nftVolsTable,
+    vebalsTable,
+    rewardsInfo,
+    nftinfoTable
+}
