@@ -1,6 +1,10 @@
 const { readDataDir } = require("../fs/dir")
 const { calcApyPerAsset, calcGeneralApy } = require("../apy/calc")
-const { calculateAllocations, calculateVolumes } = require("../calc/data")
+const {
+    calculateAllocations,
+    calculateVolumes,
+    parsePurgatory
+} = require("../calc/data")
 const { saveStorage } = require("../fs/storage")
 const { batchUpdateRound } = require("../update/batch")
 
@@ -23,10 +27,15 @@ async function sync(dataDir, roundNumber) {
     } = readDataDir(dataDir)
 
     if (round_hash_map[roundNumber] == hashsum) {
-        console.log("No changes detected, skipping")
-        return
+        return console.log("No changes detected, skipping")
     }
     round_hash_map[roundNumber] = hashsum
+
+    try {
+        nftinfo = parsePurgatory(nftinfo)
+    } catch (err) {
+        return console.log("Error parsing purgatory", err)
+    }
 
     try {
         nftinfo = calculateAllocations({
@@ -38,8 +47,7 @@ async function sync(dataDir, roundNumber) {
             nftinfo
         })
     } catch (error) {
-        console.error("Error calculating nft allocations", error)
-        return
+        return console.error("Error calculating nft allocations", error)
     }
 
     try {
@@ -51,8 +59,7 @@ async function sync(dataDir, roundNumber) {
         })
         console.log("Calculated volumes", nftinfo[0])
     } catch (error) {
-        console.error("Error calculating nft volumes", error)
-        return
+        return console.error("Error calculating nft volumes", error)
     }
 
     try {
@@ -68,8 +75,7 @@ async function sync(dataDir, roundNumber) {
             saveStorage("generalApy", generalApy)
         }
     } catch (error) {
-        console.error("Error calculating APY", error)
-        return
+        return console.error("Error calculating APY", error)
     }
 
     await batchUpdateRound({
