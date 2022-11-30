@@ -1,19 +1,22 @@
-const { wprToApy, calcGeneralApy, calcApyPerAsset } = require("../src/comps/apy/calc");
+const {
+    wprToApy,
+    calcGeneralApy,
+    calcApyPerAsset
+} = require("../src/comps/apy/calc")
 
-
-test('test apy per asset', () => {
+test("test apy per asset", () => {
     let rewardsInfo = [
         {
-            "amt": 2000,
-            "nft_addr": "0x1"
+            amt: 2000,
+            nft_addr: "0x1"
         },
         {
-            "amt": 2000,
-            "nft_addr": "0x1"
+            amt: 2000,
+            nft_addr: "0x1"
         },
         {
-            "amt": 1000,
-            "nft_addr": "0x2"
+            amt: 1000,
+            nft_addr: "0x2"
         }
     ]
 
@@ -33,7 +36,7 @@ test('test apy per asset', () => {
         {
             ve_allocated: 0,
             nft_addr: "0x3"
-        },
+        }
     ]
 
     nftinfo = calcApyPerAsset({ rewardsInfo, nftinfo })
@@ -49,26 +52,26 @@ test('test apy per asset', () => {
     expect(nftinfo[1].apr).toBeCloseTo(0.016)
 })
 
-test('test general apy', () => {
+test("test general apy", () => {
     let rewardsInfo = [
         {
-            "amt": 100,
+            amt: 100
         },
         {
-            "amt": 100,
+            amt: 100
         },
         {
-            "amt": 800,
-        },
+            amt: 800
+        }
     ]
 
     let nftinfo = [
         {
-            ve_allocated: 40000,
+            ve_allocated: 40000
         },
         {
-            ve_allocated: 60000,
-        },
+            ve_allocated: 60000
+        }
     ]
 
     let generalApy = calcGeneralApy({ rewardsInfo, nftinfo })
@@ -76,9 +79,9 @@ test('test general apy', () => {
     expect(generalApy).toBeCloseTo(0.677, 0.0001)
 })
 
-test('test wprToApy', () => {
-    let wpr = 0.015717;
-    let expected = 1.25;
-    let apy = wprToApy(wpr);
-    expect(apy).toBeCloseTo(expected, 0.0001);
-});
+test("test wprToApy", () => {
+    let wpr = 0.015717
+    let expected = 1.25
+    let apy = wprToApy(wpr)
+    expect(apy).toBeCloseTo(expected, 0.0001)
+})
