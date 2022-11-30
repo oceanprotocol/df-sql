@@ -13,10 +13,6 @@ async function updateDb(data, dbname, round) {
         keys.push("round")
         values.push(round)
 
-        if (dbname == "nft_vols") {
-            console.log("nftvols", round, keys, values)
-        }
-
         let query = `INSERT INTO ${dbname} (${keys.join(", ")}) VALUES (${values
             .map((x) => {
                 if (isNaN(x) || x.toString().startsWith("0x")) {
