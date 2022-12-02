@@ -79,7 +79,15 @@ const calculateVolumes = ({ rates, symbols, nftvols, nftinfo }) => {
     return nftinfo
 }
 
+const parsePurgatory = (nftinfo) => {
+    nftinfo.forEach((nft, i) => {
+        nftinfo[i].is_purgatory = nft.is_purgatory === "1" ? "true" : "false"
+    })
+    return nftinfo
+}
+
 module.exports = {
     calculateAllocations,
-    calculateVolumes
+    calculateVolumes,
+    parsePurgatory
 }
