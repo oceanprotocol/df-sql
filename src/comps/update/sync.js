@@ -27,7 +27,7 @@ async function sync(dataDir, roundNumber) {
     } = readDataDir(dataDir)
 
     if (round_hash_map[roundNumber] == hashsum) {
-        return console.log("No changes detected, skipping")
+        return console.log("No changes detected, skipping round", roundNumber)
     }
     round_hash_map[roundNumber] = hashsum
 
