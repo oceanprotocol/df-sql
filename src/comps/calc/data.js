@@ -16,6 +16,7 @@ const calculateAllocations = ({
 
         let lpbal = vebals.find((x) => x.LP_addr === allocation.LP_addr)
         allocations[i].ve_amt = 0
+        allocations[i].ocean_amt = 0
         if (!lpbal || !lpbal.balance) return
         let ve_amt = parseFloat(allocation.percent) * parseFloat(lpbal.balance)
         let ocean_amt =
@@ -24,6 +25,7 @@ const calculateAllocations = ({
         nft_allocations[allocation.nft_addr] += ve_amt
         nft_allocations_ocean[allocation.nft_addr] += ocean_amt
         allocations[i].ve_amt = ve_amt
+        allocations[i].ocean_amt = ocean_amt
     })
 
     let nft_allocations_realtime = {} // nft addr : ve amount
@@ -52,7 +54,7 @@ const calculateAllocations = ({
         nftinfo[i].ocean_allocated_realtime =
             nft_allocations_ocean_realtime[n.nft_addr] ?? 0
     })
-    return nftinfo
+    return { nftinfo, allocations }
 }
 
 const calculateVolumes = ({ rates, symbols, nftvols, nftinfo }) => {

@@ -38,7 +38,7 @@ async function sync(dataDir, roundNumber) {
     }
 
     try {
-        nftinfo = calculateAllocations({
+        let t = calculateAllocations({
             allocations,
             vebals_realtime,
             allocations_realtime,
@@ -46,6 +46,8 @@ async function sync(dataDir, roundNumber) {
             vebals,
             nftinfo
         })
+        allocations = t.allocations
+        nftinfo = t.nftinfo
     } catch (error) {
         return console.error("Error calculating nft allocations", error)
     }
