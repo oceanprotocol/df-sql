@@ -33,6 +33,8 @@ var nftinfoTable = `CREATE TABLE nft_info(
 var vebalsTable = `CREATE TABLE vebals(
    LP_addr        VARCHAR(94) NOT NULL
    ,balance      FLOAT(94,10) NOT NULL
+   ,locked_amt   FLOAT(94,10) NOT NULL
+   ,unlock_time  INT NOT NULL
    ,round         INT NOT NULL
    ,PRIMARY KEY(LP_addr, round) )`
 
