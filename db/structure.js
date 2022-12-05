@@ -4,6 +4,7 @@ var allocationsTable = `CREATE TABLE allocations(
     ,LP_addr      VARCHAR(94) NOT NULL
     ,percent        FLOAT(94,10) NOT NULL
     ,ve_amt        FLOAT(94,10)
+    ,ocean_amt        FLOAT(94,10)
     ,round         INT NOT NULL
    ,PRIMARY KEY(chainID, nft_addr, LP_addr, round) );`
 
