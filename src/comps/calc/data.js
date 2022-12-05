@@ -96,7 +96,7 @@ const calculateVolumes = ({ rates, symbols, nftvols, nftinfo }) => {
 
 const parsePurgatory = (nftinfo) => {
     nftinfo.forEach((nft, i) => {
-        nftinfo[i].is_purgatory = nft.is_purgatory === "1" ? "true" : "false"
+        nftinfo[i].is_purgatory = nft.is_purgatory === "1" ? 1 : 0
     })
     return nftinfo
 }

@@ -10,8 +10,8 @@ const { batchUpdateRound } = require("../update/batch")
 
 let round_hash_map = {}
 async function sync(dataDir, roundNumber) {
+    if (roundNumber === undefined) return
     console.log("Starting sync", roundNumber)
-    if (!roundNumber) return
 
     let {
         allocations,
@@ -59,7 +59,6 @@ async function sync(dataDir, roundNumber) {
             symbols,
             nftinfo
         })
-        console.log("Calculated volumes", nftinfo[0])
     } catch (error) {
         return console.error("Error calculating nft volumes", error)
     }
