@@ -4,11 +4,11 @@ const fs = require("fs")
 const dataDir = "/csv/"
 const histDataDir = "/csv/historical/"
 
-croner.Cron("0 */1 * * * *", async () => {
+croner.Cron("0 */5 * * * *", async () => {
     await sync(dataDir, 0)
 })
 
-croner.Cron("0 */1 * * * *", async () => {
+croner.Cron("0 */42 * * * *", async () => {
     await sync_historical()
 })
 
