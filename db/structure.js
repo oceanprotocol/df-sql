@@ -19,9 +19,9 @@ var nftVolsTable = `CREATE TABLE nft_vols(
 var nftinfoTable = `CREATE TABLE nft_info(
     chainID        INT  NOT NULL
     ,nft_addr      VARCHAR(94) NOT NULL
-    ,did      VARCHAR(200) NOT NULL
-    ,symbol      VARCHAR(50) NOT NULL
-    ,name      VARCHAR(350) NOT NULL
+    ,did      VARCHAR(300) NOT NULL
+    ,symbol      VARCHAR(300) NOT NULL
+    ,name      VARCHAR(750) NOT NULL
    ,ve_allocated  FLOAT(94,10)
    ,ve_allocated_realtime  FLOAT(94,10)
    ,ocean_allocated  FLOAT(94,10)
