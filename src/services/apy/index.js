@@ -24,7 +24,7 @@ const getApyByAddr = async (addr) => {
 
     // sum allocations
     let tot_allocated = allocations.reduce((acc, cur) => {
-        return acc + parseFloat(cur.ve_amt)
+        return acc + parseFloat(cur.ocean_amt)
     }, 0)
 
     // sum rewards

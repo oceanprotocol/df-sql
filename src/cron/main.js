@@ -4,7 +4,7 @@ const fs = require("fs")
 const dataDir = "/csv/"
 const histDataDir = "/csv/historical/"
 
-croner.Cron("0 */5 * * * *", async () => {
+croner.Cron("0 */1 * * * *", async () => {
     await sync(dataDir, 0)
 })
 
@@ -13,6 +13,9 @@ croner.Cron("0 */1 * * * *", async () => {
 })
 
 async function sync_historical() {
+    if (!fs.existsSync(histDataDir)) {
+        return console.log("no historical data dir")
+    }
     let folders = fs.readdirSync(histDataDir)
     folders.forEach(async (folder) => {
         let roundNumber = parseInt(folder)

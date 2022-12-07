@@ -10,8 +10,8 @@ const { batchUpdateRound } = require("../update/batch")
 
 let round_hash_map = {}
 async function sync(dataDir, roundNumber) {
+    if (roundNumber === undefined) return
     console.log("Starting sync", roundNumber)
-    if (!roundNumber) return
 
     let {
         allocations,
@@ -27,7 +27,7 @@ async function sync(dataDir, roundNumber) {
     } = readDataDir(dataDir)
 
     if (round_hash_map[roundNumber] == hashsum) {
-        return console.log("No changes detected, skipping")
+        return console.log("No changes detected, skipping round", roundNumber)
     }
     round_hash_map[roundNumber] = hashsum
 
@@ -38,7 +38,7 @@ async function sync(dataDir, roundNumber) {
     }
 
     try {
-        nftinfo = calculateAllocations({
+        let t = calculateAllocations({
             allocations,
             vebals_realtime,
             allocations_realtime,
@@ -46,6 +46,8 @@ async function sync(dataDir, roundNumber) {
             vebals,
             nftinfo
         })
+        allocations = t.allocations
+        nftinfo = t.nftinfo
     } catch (error) {
         return console.error("Error calculating nft allocations", error)
     }
@@ -57,7 +59,6 @@ async function sync(dataDir, roundNumber) {
             symbols,
             nftinfo
         })
-        console.log("Calculated volumes", nftinfo[0])
     } catch (error) {
         return console.error("Error calculating nft volumes", error)
     }

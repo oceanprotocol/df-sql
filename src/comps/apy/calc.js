@@ -9,7 +9,7 @@ function calcGeneralApy({ rewardsInfo, nftinfo }) {
         return acc + parseFloat(cur.amt)
     }, 0)
     const totalAllocatedVe = nftinfo.reduce((acc, cur) => {
-        return acc + parseFloat(cur.ve_allocated)
+        return acc + parseFloat(cur.ocean_allocated)
     }, 0)
 
     const generalApr = totalRewards / totalAllocatedVe
@@ -31,7 +31,7 @@ function calcApyPerAsset({ rewardsInfo, nftinfo }) {
             nftinfo[i].apr = 0
             return
         }
-        const nftApr = nftRewardsAmt / nft.ve_allocated
+        const nftApr = nftRewardsAmt / nft.ocean_allocated
         const nftApy = wprToApy(nftApr)
         nftinfo[i].apr = nftApr
         nftinfo[i].apy = nftApy
