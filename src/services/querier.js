@@ -9,7 +9,7 @@ String.prototype.replaceAll = function (search, replacement) {
 }
 
 const selectQuery = (
-    jsonsql,
+    jsonsql = { round: 0 },
     sort,
     limit,
     offset,
@@ -30,6 +30,7 @@ const selectQuery = (
     if (offset) obj.offset = offset
     if (group) obj.group = group
     if (join) obj.join = join
+    if (jsonsql.round === undefined) jsonsql.round = 0
 
     const query = jsonSql.build(obj)
     console.log("Query:", query)
