@@ -30,7 +30,21 @@ async function updateDb(data, dbname, round) {
     })
 }
 
+
+async function updateRewardsSummary(round) {
+    await db.promise().query(`
+    INSERT INTO rewards_summary(LP_addr,passive_amt,curating_amt,round) 
+    select LP_addr,sum(passive) as passive_amt,sum(curating) as curating_amt,? FROM 
+        (
+            select LP_addr,sum(amt) as passive,0 as curating from vebals WHERE round=? group by LP_addr 
+            UNION 
+            select LP_addr,0 as passive,sum(amt) as curating from rewards_info WHERE round=? group by LP_addr
+        ) as foo group by LP_addr`
+    , [round,round,round])
+}
+
 module.exports = {
     updateDb,
-    cleanDb
+    cleanDb,
+    updateRewardsSummary
 }
