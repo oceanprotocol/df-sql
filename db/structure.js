@@ -38,6 +38,7 @@ var vebalsTable = `CREATE TABLE vebals(
    ,balance      FLOAT(94,10) NOT NULL
    ,locked_amt   FLOAT(94,10) NOT NULL
    ,unlock_time  INT NOT NULL
+   ,amt FLOAT(94,10) DEFAULT 0
    ,round         INT NOT NULL
    ,PRIMARY KEY(LP_addr, round) )`
 
@@ -50,10 +51,18 @@ var rewardsInfo = `CREATE TABLE rewards_info(
   round         INT NOT NULL,
   PRIMARY KEY(chainID, nft_addr, LP_addr, token, round))`
 
+var rewardsSummary = `CREATE TABLE rewards_summary(
+  LP_addr VARCHAR(94) NOT NULL,
+  passive_amt FLOAT(94, 10) NOT NULL,
+  curating_amt FLOAT(94, 10) NOT NULL,
+  round         INT NOT NULL,
+  PRIMARY KEY(LP_addr, round))`
+
 module.exports = {
     allocationsTable,
     nftVolsTable,
     vebalsTable,
     rewardsInfo,
-    nftinfoTable
+    nftinfoTable,
+    rewardsSummary
 }
