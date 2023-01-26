@@ -9,6 +9,7 @@ function readDataDir(dataDir) {
     let vebals = []
     let vebals_realtime = []
     let rewardsInfo = []
+    let passiveRewardsInfo = []
     let nftinfo = []
 
     let rates = []
@@ -33,6 +34,8 @@ function readDataDir(dataDir) {
             }
         } else if (file.includes("rewardsinfo")) {
             rewardsInfo.push(...parseCsv(`${dataDir}${file}`))
+        } else if (file.includes("passive")) {
+            passiveRewardsInfo.push(...parseCsv(`${dataDir}${file}`))
         } else if (file.includes("nftinfo")) {
             nftinfo.push(...parseCsv(`${dataDir}${file}`))
         } else if (file.includes("rate-")) {
@@ -54,6 +57,7 @@ function readDataDir(dataDir) {
         vebals,
         vebals_realtime,
         rewardsInfo,
+        passiveRewardsInfo,
         nftinfo,
         rates,
         symbols,

@@ -5,6 +5,7 @@ const batchUpdateRound = async ({
     nftvols,
     vebals,
     rewardsInfo,
+    passiveRewardsInfo,
     nftinfo,
     roundNumber
 }) => {
@@ -19,6 +20,9 @@ const batchUpdateRound = async ({
 
     await cleanDb("rewards_info", roundNumber)
     await updateDb(rewardsInfo, "rewards_info", roundNumber)
+
+    await cleanDb("passive_rewards_info", roundNumber)
+    await updateDb(passiveRewardsInfo, "passive_rewards_info", roundNumber)
 
     await cleanDb("nft_info", roundNumber)
     await updateDb(nftinfo, "nft_info", roundNumber)
