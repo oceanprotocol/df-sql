@@ -11,6 +11,9 @@ async function cleanDb(dbname, round) {
 async function updateDb(data, dbname, round) {
     console.log("Updating db", dbname, round, data.length)
     data.forEach(async (element) => {
+        if (element["volume"] != undefined && element["volume"] == NaN) {
+            element["volume"] = 0
+        }
         let keys = Object.keys(element)
         let values = Object.values(element)
 
