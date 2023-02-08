@@ -30,6 +30,7 @@ var nftinfoTable = `CREATE TABLE nft_info(
    ,is_purgatory  BOOLEAN
    ,apr  FLOAT(94,10)
    ,apy  FLOAT(94,10)
+   ,owner_addr      VARCHAR(94)
    ,round         INT NOT NULL
    ,PRIMARY KEY(chainID, nft_addr, round) );`
 
@@ -50,10 +51,18 @@ var rewardsInfo = `CREATE TABLE rewards_info(
   round         INT NOT NULL,
   PRIMARY KEY(chainID, nft_addr, LP_addr, token, round))`
 
+const ownersInfo = `CREATE TABLE owners_info(
+    chainID INT NOT NULL,
+    nft_addr VARCHAR(94) NOT NULL,
+    owner_addr VARCHAR(94) NOT NULL,
+    PRIMARY KEY(chainID, nft_addr)
+)`
+
 module.exports = {
     allocationsTable,
     nftVolsTable,
     vebalsTable,
     rewardsInfo,
-    nftinfoTable
+    nftinfoTable,
+    ownersInfo
 }

@@ -1,17 +1,27 @@
 const db = require("../../db")
 
-async function cleanDb(dbname, round) {
+async function dropTable(dbname, round) {
+    if (round !== undefined) {
+        await db.promise().query(`DELETE FROM ${dbname}`)
+        return
+    }
     await db.promise().query(`DELETE FROM ${dbname} WHERE round = ?`, [round])
 }
 
 async function updateDb(data, dbname, round) {
     console.log("Updating db", dbname, round, data.length)
     data.forEach(async (element) => {
+        if (dbname == "nft_info" && isNaN(element["volume"])) {
+            element["volume"] = 0
+        }
+
         let keys = Object.keys(element)
         let values = Object.values(element)
 
-        keys.push("round")
-        values.push(round)
+        if (round !== undefined) {
+            keys.push("round")
+            values.push(round)
+        }
 
         let query = `INSERT INTO ${dbname} (${keys.join(", ")}) VALUES (${values
             .map((x) => {
@@ -32,5 +42,5 @@ async function updateDb(data, dbname, round) {
 
 module.exports = {
     updateDb,
-    cleanDb
+    dropTable
 }
