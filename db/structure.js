@@ -51,10 +51,17 @@ var rewardsInfo = `CREATE TABLE rewards_info(
   round         INT NOT NULL,
   PRIMARY KEY(chainID, nft_addr, LP_addr, token, round))`
 
+const ownersInfo = `CREATE TABLE owners_info(
+    chainID INT NOT NULL,
+    nft_addr VARCHAR(94) NOT NULL,
+    owner_addr VARCHAR(94) NOT NULL,
+)`
+
 module.exports = {
     allocationsTable,
     nftVolsTable,
     vebalsTable,
     rewardsInfo,
-    nftinfoTable
+    nftinfoTable,
+    ownersInfo
 }
