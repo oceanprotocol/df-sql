@@ -1,7 +1,7 @@
 const db = require("../../db")
 
-async function cleanDb(dbname, round) {
-    if (!round !== undefined) {
+async function dropTable(dbname, round) {
+    if (round !== undefined) {
         await db.promise().query(`DELETE FROM ${dbname}`)
         return
     }
@@ -42,5 +42,5 @@ async function updateDb(data, dbname, round) {
 
 module.exports = {
     updateDb,
-    cleanDb
+    dropTable
 }
