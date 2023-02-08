@@ -72,7 +72,7 @@ const calculateVolumes = ({ rates, symbols, nftvols, nftinfo }) => {
                     return acc
                 }
 
-                let token_symbol = "baseTokenSymbol.token_symbol
+                let token_symbol = baseTokenSymbol.token_symbol
 
                 let rate = rates.find(
                     (x) =>
