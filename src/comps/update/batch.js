@@ -6,6 +6,7 @@ const batchUpdateRound = async ({
     vebals,
     rewardsInfo,
     nftinfo,
+    ownerInfo,
     roundNumber
 }) => {
     await cleanDb("allocations", roundNumber)
@@ -22,6 +23,11 @@ const batchUpdateRound = async ({
 
     await cleanDb("nft_info", roundNumber)
     await updateDb(nftinfo, "nft_info", roundNumber)
+
+    if (ownerInfo) {
+        await cleanDb("owners_info")
+        await updateDb(ownerInfo, "owners_info")
+    }
 }
 
 module.exports = { batchUpdateRound }
