@@ -14,6 +14,9 @@ async function updateDb(data, dbname, round) {
         if (element["volume"] != undefined && element["volume"] == NaN) {
             element["volume"] = 0
         }
+        if (round == 6 && dbname == "nft_info") {
+            console.log(element)
+        }
         let keys = Object.keys(element)
         let values = Object.values(element)
 
