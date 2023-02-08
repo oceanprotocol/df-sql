@@ -11,12 +11,10 @@ async function cleanDb(dbname, round) {
 async function updateDb(data, dbname, round) {
     console.log("Updating db", dbname, round, data.length)
     data.forEach(async (element) => {
-        if (element["volume"] != undefined && element["volume"] == NaN) {
+        if (!element["volume"]) {
             element["volume"] = 0
         }
-        if (round == 6 && dbname == "nft_info") {
-            console.log(element)
-        }
+
         let keys = Object.keys(element)
         let values = Object.values(element)
 
