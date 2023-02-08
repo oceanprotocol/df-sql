@@ -11,7 +11,7 @@ async function cleanDb(dbname, round) {
 async function updateDb(data, dbname, round) {
     console.log("Updating db", dbname, round, data.length)
     data.forEach(async (element) => {
-        if (isNaN(element["volume"])) {
+        if (dbname == "nft_info" && isNaN(element["volume"])) {
             element["volume"] = 0
         }
 
