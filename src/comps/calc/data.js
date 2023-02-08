@@ -72,12 +72,16 @@ const calculateVolumes = ({ rates, symbols, nftvols, nftinfo }) => {
                     return acc
                 }
 
-                let token_symbol = baseTokenSymbol.token_symbol
+                let token_symbol = "baseTokenSymbol.token_symbol
+
                 let rate = rates.find(
                     (x) =>
                         x.token_symbol.replace("M", "") ===
                         token_symbol.replace("M", "")
                 )
+                if (token_symbol == "USDC") {
+                    rate = 1
+                }
 
                 if (!rate) {
                     console.error(
