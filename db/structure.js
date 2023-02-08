@@ -55,6 +55,7 @@ const ownersInfo = `CREATE TABLE owners_info(
     chainID INT NOT NULL,
     nft_addr VARCHAR(94) NOT NULL,
     owner_addr VARCHAR(94) NOT NULL,
+    PRIMARY KEY(chainID, nft_addr))
 )`
 
 module.exports = {
