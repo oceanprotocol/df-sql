@@ -1,7 +1,7 @@
 const db = require("../../db")
 
 async function cleanDb(dbname, round) {
-    if (!round) {
+    if (!round !== undefined) {
         await db.promise().query(`DELETE FROM ${dbname}`)
         return
     }
@@ -14,7 +14,7 @@ async function updateDb(data, dbname, round) {
         let keys = Object.keys(element)
         let values = Object.values(element)
 
-        if (round) {
+        if (round !== undefined) {
             keys.push("round")
             values.push(round)
         }
