@@ -9,7 +9,7 @@ async function cleanDb(dbname, round) {
 }
 
 async function updateDb(data, dbname, round) {
-    console.log("Updating db", dbname, round, data.length)
+    console.log("Updating db", dbname, round, data.length, JSON.stringify(data))
     data.forEach(async (element) => {
         let keys = Object.keys(element)
         let values = Object.values(element)
