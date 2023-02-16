@@ -1,7 +1,7 @@
 const db = require("../../db")
 
 async function dropTable(dbname, round) {
-    if (round !== undefined) {
+    if (round === undefined) {
         await db.promise().query(`DELETE FROM ${dbname}`)
         return
     }
