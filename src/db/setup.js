@@ -8,6 +8,7 @@ const {
     passiveRewardsInfo,
     nftinfoTable,
     rewardsSummary
+    ownersInfo
 } = require("../../db/structure")
 
 function createTables(con) {
@@ -38,6 +39,9 @@ function createTables(con) {
     con.query(rewardsSummary, function (err, result) {
         if (err) throw err
         console.log("Table rewards_summary created")
+    con.query(ownersInfo, function (err, result) {
+        if (err) throw err
+        console.log("Table owners_info created")
     })
 }
 

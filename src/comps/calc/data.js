@@ -73,11 +73,15 @@ const calculateVolumes = ({ rates, symbols, nftvols, nftinfo }) => {
                 }
 
                 let token_symbol = baseTokenSymbol.token_symbol
+
                 let rate = rates.find(
                     (x) =>
                         x.token_symbol.replace("M", "") ===
                         token_symbol.replace("M", "")
                 )
+                if (token_symbol == "USDC") {
+                    rate = 1
+                }
 
                 if (!rate) {
                     console.error(
@@ -90,6 +94,10 @@ const calculateVolumes = ({ rates, symbols, nftvols, nftinfo }) => {
             }
             return acc
         }, 0)
+        if (nftinfo[i].volume == NaN) {
+            console.log("Found NaN value", nftinfo[i])
+            nftinfo[i].volume = 0
+        }
     })
     return nftinfo
 }
