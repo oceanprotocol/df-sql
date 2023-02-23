@@ -57,7 +57,7 @@ var passiveRewardsInfo = `CREATE TABLE passive_rewards_info(
     amt FLOAT(94, 10) NOT NULL,
     token VARCHAR(94) NOT NULL,
     round         INT NOT NULL,
-    PRIMARY KEY(chainID, nft_addr, LP_addr, token, round))`
+    PRIMARY KEY(LP_addr, token, round))`
   
 
 var rewardsSummary = `CREATE TABLE rewards_summary(
