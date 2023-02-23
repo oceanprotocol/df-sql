@@ -32,6 +32,7 @@ async function updateDb(data, dbname, round) {
 
 
 async function updateRewardsSummary(round) {
+    // aggregates the sum of "passive" and "curating" rewards for each "LP_addr" for a given "round" by getting the sum of `amt` from `rewards_info` and `passive_rewards_info` tables
     await db.promise().query(`
     INSERT INTO rewards_summary(LP_addr,passive_amt,curating_amt,round) 
     select LP_addr,sum(passive) as passive_amt,sum(curating) as curating_amt,? FROM 
