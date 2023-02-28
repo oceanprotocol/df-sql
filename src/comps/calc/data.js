@@ -1,3 +1,14 @@
+const allocationMultiplier = ({ nftinfo, lp_addr, nft_addr }) => {
+    let nftrec = nftinfo.find(x => x.nft_addr === nft_addr)
+    if (nftrec != undefined) {
+        let _owneraddr = nftrec.owner_addr
+        if (_owneraddr === lp_addr) {
+            return 2;
+        }
+    }
+    return 1;
+}
+
 const calculateAllocations = ({
     allocations,
     allocations_realtime,
@@ -18,9 +29,16 @@ const calculateAllocations = ({
         allocations[i].ve_amt = 0
         allocations[i].ocean_amt = 0
         if (!lpbal || !lpbal.balance) return
-        let ve_amt = parseFloat(allocation.percent) * parseFloat(lpbal.balance)
+        let multiplier = allocationMultiplier(
+            {
+                nftinfo,
+                lp_addr: x.LP_addr,
+                nft_addr: allocation.nft_addr
+            }
+        )
+        let ve_amt = parseFloat(allocation.percent) * parseFloat(lpbal.balance) * multiplier
         let ocean_amt =
-            parseFloat(allocation.percent) * parseFloat(lpbal.locked_amt)
+            parseFloat(allocation.percent) * parseFloat(lpbal.locked_amt) * multiplier
 
         nft_allocations[allocation.nft_addr] += ve_amt
         nft_allocations_ocean[allocation.nft_addr] += ocean_amt
@@ -40,10 +58,20 @@ const calculateAllocations = ({
             (x) => x.LP_addr === allocation.LP_addr
         )
         if (!lpbal || !lpbal.balance) continue
+
+
+        let multiplier = allocationMultiplier(
+            {
+                nftinfo,
+                lp_addr: x.LP_addr,
+                nft_addr: allocation.nft_addr
+            }
+        )
+
         nft_allocations_realtime[allocation.nft_addr] +=
-            parseFloat(allocation.percent) * parseFloat(lpbal.balance)
+            parseFloat(allocation.percent) * parseFloat(lpbal.balance) * multiplier
         nft_allocations_ocean_realtime[allocation.nft_addr] +=
-            parseFloat(allocation.percent) * parseFloat(lpbal.locked_amt)
+            parseFloat(allocation.percent) * parseFloat(lpbal.locked_amt) * multiplier
     }
 
     nftinfo.forEach((n, i) => {
