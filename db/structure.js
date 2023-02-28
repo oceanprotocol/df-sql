@@ -23,9 +23,13 @@ var nftinfoTable = `CREATE TABLE nft_info(
     ,symbol      VARCHAR(300) NOT NULL
     ,name      VARCHAR(750) NOT NULL
    ,ve_allocated  FLOAT(94,10)
-   ,ve_allocated_realtime  FLOAT(94,10)
    ,ocean_allocated  FLOAT(94,10)
+   ,ve_allocated_owner  FLOAT(94,10)
+   ,ocean_allocated_owner  FLOAT(94,10)
+   ,ve_allocated_realtime  FLOAT(94,10)
    ,ocean_allocated_realtime  FLOAT(94,10)
+   ,ve_allocated_realtime_owner  FLOAT(94,10)
+   ,ocean_allocated_realtime_owner  FLOAT(94,10)
    ,volume  FLOAT(94,10)
    ,is_purgatory  BOOLEAN
    ,apr  FLOAT(94,10)
