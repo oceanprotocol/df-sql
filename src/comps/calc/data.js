@@ -32,7 +32,7 @@ const calculateAllocations = ({
         let multiplier = allocationMultiplier(
             {
                 nftinfo,
-                lp_addr: x.LP_addr,
+                lp_addr: allocation.LP_addr,
                 nft_addr: allocation.nft_addr
             }
         )
@@ -63,7 +63,7 @@ const calculateAllocations = ({
         let multiplier = allocationMultiplier(
             {
                 nftinfo,
-                lp_addr: x.LP_addr,
+                lp_addr: allocation.LP_addr,
                 nft_addr: allocation.nft_addr
             }
         )
