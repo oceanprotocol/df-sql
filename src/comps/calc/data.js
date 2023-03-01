@@ -54,7 +54,7 @@ const calculateAllocations = ({
         // track owner allocation
         if(multiplier !== 1) {
             nft_allocations_owner[allocation.nft_addr] = ve_amt
-            nft_allocations_ocean_owner[allocation.nft_addr] = ocean_amt
+            nft_allocations_owner_ocean[allocation.nft_addr] = ocean_amt
         }
     })
 
