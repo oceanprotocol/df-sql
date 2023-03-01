@@ -61,7 +61,6 @@ const calculateAllocations = ({
     let nft_allocations_realtime = {} // nft addr : ve amount
     let nft_allocations_ocean_realtime = {}
     let nft_allocations_realtime_owner = {}
-    let 
     let nft_allocations_ocean_realtime_owner = {}
     for (let allocation of allocations_realtime) {
         if (!nft_allocations_realtime[allocation.nft_addr]) {
