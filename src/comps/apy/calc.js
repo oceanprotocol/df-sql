@@ -1,6 +1,6 @@
-function wprToApy(wpr) {
+function yieldToApy(yield) {
     let weeks = 52
-    let apy = Math.pow(1 + wpr, weeks) - 1
+    let apy = Math.pow(1 + yield, weeks) - 1
     return apy
 }
 
@@ -31,8 +31,11 @@ function calcApyPerAsset({ rewardsInfo, nftinfo }) {
             nftinfo[i].apr = 0
             return
         }
-        const nftApr = nftRewardsAmt / nft.ocean_allocated
-        const nftApy = wprToApy(nftApr)
+        const nftYield = nftRewardsAmt / nft.ocean_allocated
+        const nftApr = nftYield * 52
+        const nftApy = yieldToApy(nftYield)
+        nftinfo[i].rewardsAmt = nftRewardsAmt
+        nftinfo[i].yield = nftYield
         nftinfo[i].apr = nftApr
         nftinfo[i].apy = nftApy
     })
