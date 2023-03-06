@@ -31,7 +31,7 @@ function calcApyPerAsset({ rewardsInfo, nftinfo }) {
             nftinfo[i].apr = 0
             return
         }
-        const nftApr = nftRewardsAmt / nft.ocean_allocated
+        const nftApr = nftRewardsAmt / (nft.ocean_allocated + nft.ocean_allocated_owner)
         const nftApy = wprToApy(nftApr)
         nftinfo[i].apr = nftApr
         nftinfo[i].apy = nftApy
