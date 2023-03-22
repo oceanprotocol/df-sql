@@ -55,6 +55,22 @@ var rewardsInfo = `CREATE TABLE rewards_info(
   round         INT NOT NULL,
   PRIMARY KEY(chainID, nft_addr, LP_addr, token, round))`
 
+var passiveRewardsInfo = `CREATE TABLE passive_rewards_info(
+    LP_addr VARCHAR(94) NOT NULL,
+    balance      FLOAT(94,10) NOT NULL,
+    locked_amt   FLOAT(94,10) NOT NULL,
+    amt FLOAT(94, 10) NOT NULL,
+    token VARCHAR(94) NOT NULL,
+    round         INT NOT NULL,
+    PRIMARY KEY(LP_addr, token, round))`
+  
+
+var rewardsSummary = `CREATE TABLE rewards_summary(
+  LP_addr VARCHAR(94) NOT NULL,
+  passive_amt FLOAT(94, 10) NOT NULL,
+  curating_amt FLOAT(94, 10) NOT NULL,
+  round         INT NOT NULL,
+  PRIMARY KEY(LP_addr, round))`
 const ownersInfo = `CREATE TABLE owners_info(
     chainID INT NOT NULL,
     nft_addr VARCHAR(94) NOT NULL,
@@ -67,6 +83,8 @@ module.exports = {
     nftVolsTable,
     vebalsTable,
     rewardsInfo,
+    passiveRewardsInfo,
     nftinfoTable,
+    rewardsSummary,
     ownersInfo
 }

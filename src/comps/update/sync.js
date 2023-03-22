@@ -20,6 +20,7 @@ async function sync(dataDir, roundNumber) {
         vebals,
         vebals_realtime,
         rewardsInfo,
+        passiveRewardsInfo,
         nftinfo,
         rates,
         symbols,
@@ -84,6 +85,7 @@ async function sync(dataDir, roundNumber) {
         nftvols,
         vebals,
         rewardsInfo,
+        passiveRewardsInfo,
         nftinfo,
         roundNumber: roundNumber
     })

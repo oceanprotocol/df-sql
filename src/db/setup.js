@@ -5,7 +5,9 @@ const {
     nftVolsTable,
     vebalsTable,
     rewardsInfo,
+    passiveRewardsInfo,
     nftinfoTable,
+    rewardsSummary,
     ownersInfo
 } = require("../../db/structure")
 
@@ -26,10 +28,18 @@ function createTables(con) {
         if (err) throw err
         console.log("Table rewards_info created")
     })
+    con.query(passiveRewardsInfo, function (err, result) {
+        if (err) throw err
+        console.log("Table passive_rewards_info created")
+    })
     con.query(nftinfoTable, function (err, result) {
         if (err) throw err
         console.log("Table nft_info created")
     })
+    con.query(rewardsSummary, function (err, result) {
+        if (err) throw err
+        console.log("Table rewards_summary created")
+        })
     con.query(ownersInfo, function (err, result) {
         if (err) throw err
         console.log("Table owners_info created")

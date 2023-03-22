@@ -41,6 +41,14 @@ Queryable fields:
 chainID,LP_addr,nft_addr,amt,token
 ```
 
+### POST `/rewardsSummary`
+Queries `rewards_summary` table.  
+Queryable fields:
+```
+LP_addr,passive_amt,curating_amt
+```
+
+
 ## Request examples
 
 `POST /nft_vols`
