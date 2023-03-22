@@ -7,7 +7,7 @@ const {
     rewardsInfo,
     passiveRewardsInfo,
     nftinfoTable,
-    rewardsSummary
+    rewardsSummary,
     ownersInfo
 } = require("../../db/structure")
 

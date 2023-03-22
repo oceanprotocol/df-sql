@@ -81,6 +81,6 @@ module.exports = {
     rewardsInfo,
     passiveRewardsInfo,
     nftinfoTable,
-    rewardsSummary
+    rewardsSummary,
     ownersInfo
 }
