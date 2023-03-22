@@ -56,6 +56,6 @@ async function updateRewardsSummary(round) {
 
 module.exports = {
     updateDb,
-    dropTable
+    dropTable,
     updateRewardsSummary
 }
