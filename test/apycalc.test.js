@@ -42,14 +42,14 @@ test("test apy per asset", () => {
     nftinfo = calcApyPerAsset({ rewardsInfo, nftinfo })
 
     for (let n of nftinfo) {
-        expect(n.apy).toBe(wprToApy(n.apr))
+        expect(n.apy).toBe(wprToApy(n.roundYield))
     }
 
     expect(nftinfo[0].apy).toBeCloseTo(141.04)
-    expect(nftinfo[0].apr).toBe(0.1)
+    expect(nftinfo[0].roundYield).toBe(0.1)
 
     expect(nftinfo[1].apy).toBeCloseTo(1.362)
-    expect(nftinfo[1].apr).toBeCloseTo(0.016)
+    expect(nftinfo[1].roundYield).toBeCloseTo(0.016)
 })
 
 test("test general apy", () => {

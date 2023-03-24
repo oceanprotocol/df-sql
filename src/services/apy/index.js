@@ -31,8 +31,8 @@ const getApyByAddr = async (addr) => {
     let tot_rewards = rewards.reduce((acc, cur) => {
         return acc + parseFloat(cur.amt)
     }, 0)
-    let apr = tot_rewards / tot_allocated
-    let apy = wprToApy(apr)
+    let roundYield = tot_rewards / tot_allocated
+    let apy = wprToApy(roundYield)
 
     return apy
 }

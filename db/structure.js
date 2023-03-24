@@ -32,7 +32,7 @@ var nftinfoTable = `CREATE TABLE nft_info(
    ,ocean_allocated_realtime_owner  FLOAT(94,10)
    ,volume  FLOAT(94,10)
    ,is_purgatory  BOOLEAN
-   ,roundYeild  FLOAT(94,10)
+   ,roundYield  FLOAT(94,10)
    ,apy  FLOAT(94,10)
    ,owner_addr      VARCHAR(94)
    ,round         INT NOT NULL
