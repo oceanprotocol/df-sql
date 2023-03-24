@@ -63,7 +63,6 @@ var passiveRewardsInfo = `CREATE TABLE passive_rewards_info(
     token VARCHAR(94) NOT NULL,
     round         INT NOT NULL,
     PRIMARY KEY(LP_addr, token, round))`
-  
 
 var rewardsSummary = `CREATE TABLE rewards_summary(
   LP_addr VARCHAR(94) NOT NULL,

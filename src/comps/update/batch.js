@@ -1,4 +1,4 @@
-const { dropTable, updateDb , updateRewardsSummary } = require("../update/index")
+const { dropTable, updateDb, updateRewardsSummary } = require("../update/index")
 
 const batchUpdateRound = async ({
     allocations,
@@ -24,7 +24,7 @@ const batchUpdateRound = async ({
 
     await dropTable("nft_info", roundNumber)
     await updateDb(nftinfo, "nft_info", roundNumber)
-    
+
     await dropTable("passive_rewards_info", roundNumber)
     await updateDb(passiveRewardsInfo, "passive_rewards_info", roundNumber)
 
