@@ -34,6 +34,7 @@ var nftinfoTable = `CREATE TABLE nft_info(
    ,is_purgatory  BOOLEAN
    ,roundYield  FLOAT(94,10)
    ,apy  FLOAT(94,10)
+   ,apr  FLOAT(94,10)
    ,owner_addr      VARCHAR(94)
    ,round         INT NOT NULL
    ,PRIMARY KEY(chainID, nft_addr, round) );`

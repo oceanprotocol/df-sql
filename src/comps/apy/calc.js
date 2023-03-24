@@ -28,6 +28,7 @@ function calcApyPerAsset({ rewardsInfo, nftinfo }) {
         }, 0)
         if (nftRewardsAmt === 0) {
             nftinfo[i].apy = 0
+            nftinfo[i].apr = 0
             nftinfo[i].roundYield = 0
             return
         }
@@ -35,6 +36,7 @@ function calcApyPerAsset({ rewardsInfo, nftinfo }) {
             nftRewardsAmt / (nft.ocean_allocated + nft.ocean_allocated_owner)
         const nftApy = wprToApy(nftRoundYield)
         nftinfo[i].roundYield = nftRoundYield
+        nftinfo[i].apr = nftRoundYield * 52
         nftinfo[i].apy = nftApy
     })
     return nftinfo

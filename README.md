@@ -24,7 +24,7 @@ chainID,basetoken_addr,nft_addr,vol_amt
 Queries `nft_info` table.
 Queryable fields:
 ```
-chainID,nft_addr,did,symbol,name,ve_allocated ocean_allocated,ve_allocated_owner, ocean_allocated_owner,ve_allocated_realtime,ocean_allocated_realtime,ve_allocated_realtime_owner,ocean_allocated_realtime_owner,volume,is_purgatory,apr,apy,owner_addr,round
+chainID,nft_addr,did,symbol,name,ve_allocated ocean_allocated,ve_allocated_owner, ocean_allocated_owner,ve_allocated_realtime,ocean_allocated_realtime,ve_allocated_realtime_owner,ocean_allocated_realtime_owner,volume,is_purgatory,apr,apy,roundYield,owner_addr,round
 ```
 
 ### POST `/vebals`
