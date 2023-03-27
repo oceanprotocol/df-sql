@@ -11,10 +11,6 @@ test("test apy per asset", () => {
             nft_addr: "0x1"
         },
         {
-            amt: 2000,
-            nft_addr: "0x1"
-        },
-        {
             amt: 1000,
             nft_addr: "0x2"
         }
@@ -22,20 +18,14 @@ test("test apy per asset", () => {
 
     let nftinfo = [
         {
-            ve_allocated: 40000,
+            ocean_allocated: 40000,
+            ocean_allocated_owner: 0,
             nft_addr: "0x1"
         },
         {
-            ve_allocated: 60000,
+            ocean_allocated: 60000,
+            ocean_allocated_owner: 0,
             nft_addr: "0x2"
-        },
-        {
-            ve_allocated: 0,
-            nft_addr: "0x2"
-        },
-        {
-            ve_allocated: 0,
-            nft_addr: "0x3"
         }
     ]
 
@@ -45,32 +35,41 @@ test("test apy per asset", () => {
         expect(n.apy).toBe(wprToApy(n.roundYield))
     }
 
-    expect(nftinfo[0].apy).toBeCloseTo(141.04)
-    expect(nftinfo[0].roundYield).toBe(0.1)
+    expect(nftinfo[0].apy).toBeCloseTo(11.64)
+    expect(nftinfo[0].apr).toBeCloseTo(2.6)
+    expect(nftinfo[0].roundYield).toBeCloseTo(0.05)
 
     expect(nftinfo[1].apy).toBeCloseTo(1.362)
+    expect(nftinfo[1].apr).toBeCloseTo(0.866)
     expect(nftinfo[1].roundYield).toBeCloseTo(0.016)
 })
 
 test("test general apy", () => {
     let rewardsInfo = [
         {
-            amt: 100
+            amt: 100,
+            nft_addr: "0x1"
         },
         {
-            amt: 100
+            amt: 100,
+            nft_addr: "0x1"
         },
         {
-            amt: 800
+            amt: 800,
+            nft_addr: "0x2"
         }
     ]
 
     let nftinfo = [
         {
-            ve_allocated: 40000
+            ocean_allocated: 40000,
+            ocean_allocated_owner: 0,
+            nft_addr: "0x1"
         },
         {
-            ve_allocated: 60000
+            ocean_allocated: 60000,
+            ocean_allocated_owner: 0,
+            nft_addr: "0x2"
         }
     ]
 
