@@ -1,6 +1,14 @@
 const { selectQuery } = require("../querier")
 
-const getRewardsSummary = ({ query, sort, limit, offset, group, fields, join }) => {
+const getRewardsSummary = ({
+    query,
+    sort,
+    limit,
+    offset,
+    group,
+    fields,
+    join
+}) => {
     return selectQuery(
         query,
         sort,

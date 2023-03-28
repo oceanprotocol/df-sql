@@ -1,12 +1,12 @@
 const allocationMultiplier = ({ nftinfo, lp_addr, nft_addr }) => {
-    let nftrec = nftinfo.find(x => x.nft_addr === nft_addr)
+    let nftrec = nftinfo.find((x) => x.nft_addr === nft_addr)
     if (nftrec != undefined) {
         let _owneraddr = nftrec.owner_addr
         if (_owneraddr === lp_addr) {
-            return 2;
+            return 2
         }
     }
-    return 1;
+    return 1
 }
 
 const calculateAllocations = ({
@@ -31,19 +31,19 @@ const calculateAllocations = ({
         allocations[i].ve_amt = 0
         allocations[i].ocean_amt = 0
         if (!lpbal || !lpbal.balance) return
-        let multiplier = allocationMultiplier(
-            {
-                nftinfo,
-                lp_addr: allocation.LP_addr,
-                nft_addr: allocation.nft_addr
-            }
-        )
+        let multiplier = allocationMultiplier({
+            nftinfo,
+            lp_addr: allocation.LP_addr,
+            nft_addr: allocation.nft_addr
+        })
 
         // publisher 2x bonus
-        let ve_amt = parseFloat(allocation.percent) * parseFloat(lpbal.balance) * multiplier
+        let ve_amt =
+            parseFloat(allocation.percent) *
+            parseFloat(lpbal.balance) *
+            multiplier
         let ocean_amt =
             parseFloat(allocation.percent) * parseFloat(lpbal.locked_amt)
-
 
         // Let's track what was allocated globally
         nft_allocations[allocation.nft_addr] += ve_amt
@@ -73,17 +73,17 @@ const calculateAllocations = ({
         )
         if (!lpbal || !lpbal.balance) continue
 
-
-        let multiplier = allocationMultiplier(
-            {
-                nftinfo,
-                lp_addr: allocation.LP_addr,
-                nft_addr: allocation.nft_addr
-            }
-        )
+        let multiplier = allocationMultiplier({
+            nftinfo,
+            lp_addr: allocation.LP_addr,
+            nft_addr: allocation.nft_addr
+        })
 
         // publisher 2x bonus
-        let ve_amt = parseFloat(allocation.percent) * parseFloat(lpbal.balance) * multiplier
+        let ve_amt =
+            parseFloat(allocation.percent) *
+            parseFloat(lpbal.balance) *
+            multiplier
         let ocean_amt =
             parseFloat(allocation.percent) * parseFloat(lpbal.locked_amt)
 
@@ -93,7 +93,8 @@ const calculateAllocations = ({
         // track owner allocation
         if (multiplier !== 1) {
             nft_allocations_realtime_owner[allocation.nft_addr] = ve_amt
-            nft_allocations_ocean_realtime_owner[allocation.nft_addr] = ocean_amt
+            nft_allocations_ocean_realtime_owner[allocation.nft_addr] =
+                ocean_amt
         }
     }
 
@@ -110,7 +111,8 @@ const calculateAllocations = ({
         nftinfo[i].ve_allocated_owner = nft_allocations_owner[n.nft_addr] ?? 0 // consider 0 if no allocations
         nftinfo[i].ve_allocated_realtime_owner =
             nft_allocations_realtime_owner[n.nft_addr] ?? 0 // consider 0 if no allocations
-        nftinfo[i].ocean_allocated_owner = nft_allocations_owner_ocean[n.nft_addr] ?? 0
+        nftinfo[i].ocean_allocated_owner =
+            nft_allocations_owner_ocean[n.nft_addr] ?? 0
         nftinfo[i].ocean_allocated_realtime_owner =
             nft_allocations_ocean_realtime_owner[n.nft_addr] ?? 0
     })

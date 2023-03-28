@@ -12,8 +12,8 @@ function calcGeneralApy({ rewardsInfo, nftinfo }) {
         return acc + parseFloat(cur.ocean_allocated)
     }, 0)
 
-    const generalApr = totalRewards / totalAllocatedVe
-    const generalApy = wprToApy(generalApr)
+    const generalRoundYield = totalRewards / totalAllocatedVe
+    const generalApy = wprToApy(generalRoundYield)
 
     return generalApy
 }
@@ -29,11 +29,14 @@ function calcApyPerAsset({ rewardsInfo, nftinfo }) {
         if (nftRewardsAmt === 0) {
             nftinfo[i].apy = 0
             nftinfo[i].apr = 0
+            nftinfo[i].roundYield = 0
             return
         }
-        const nftApr = nftRewardsAmt / (nft.ocean_allocated + nft.ocean_allocated_owner)
-        const nftApy = wprToApy(nftApr)
-        nftinfo[i].apr = nftApr
+        const nftRoundYield =
+            nftRewardsAmt / (nft.ocean_allocated + nft.ocean_allocated_owner)
+        const nftApy = wprToApy(nftRoundYield)
+        nftinfo[i].roundYield = nftRoundYield
+        nftinfo[i].apr = nftRoundYield * 52
         nftinfo[i].apy = nftApy
     })
     return nftinfo
