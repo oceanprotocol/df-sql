@@ -58,11 +58,9 @@ var rewardsInfo = `CREATE TABLE rewards_info(
 var passiveRewardsInfo = `CREATE TABLE passive_rewards_info(
     LP_addr VARCHAR(94) NOT NULL,
     balance      FLOAT(94,10) NOT NULL,
-    locked_amt   FLOAT(94,10) NOT NULL,
-    amt FLOAT(94, 10) NOT NULL,
-    token VARCHAR(94) NOT NULL,
+    reward   FLOAT(94,10) NOT NULL,
     round         INT NOT NULL,
-    PRIMARY KEY(LP_addr, token, round))`
+    PRIMARY KEY(LP_addr, round))`
   
 
 var rewardsSummary = `CREATE TABLE rewards_summary(
