@@ -136,13 +136,15 @@ const calculateVolumes = ({ rates, symbols, nftvols, nftinfo }) => {
 
                 let token_symbol = baseTokenSymbol.token_symbol
 
-                let rate = rates.find(
-                    (x) =>
-                        x.token_symbol.replace("M", "") ===
-                        token_symbol.replace("M", "")
-                )
+                let rate = 0
                 if (token_symbol == "USDC") {
-                    rate = 1
+                    rate = { rate: 1 }
+                } else {
+                    rate = rates.find(
+                        (x) =>
+                            x.token_symbol.replace("M", "") ===
+                            token_symbol.replace("M", "")
+                    )
                 }
 
                 if (!rate) {
@@ -172,6 +174,7 @@ const parsePurgatory = (nftinfo) => {
 }
 
 module.exports = {
+    allocationMultiplier,
     calculateAllocations,
     calculateVolumes,
     parsePurgatory
