@@ -10,11 +10,7 @@ async function dropTable(dbname, round) {
 
 async function updateDb(data, dbname, round) {
     console.log("Updating db", dbname, round, data.length)
-    data.forEach(async (element) => {
-        if (dbname == "nft_info" && isNaN(element["volume"])) {
-            element["volume"] = 0
-        }
-
+    for (const element of data) {
         let keys = Object.keys(element)
         let values = Object.values(element)
 
@@ -23,21 +19,19 @@ async function updateDb(data, dbname, round) {
             values.push(round)
         }
 
-        let query = `INSERT INTO ${dbname} (${keys.join(", ")}) VALUES (${values
-            .map((x) => {
-                if (isNaN(x) || x.toString().startsWith("0x")) {
-                    let str = `${x}`
-                    str = str.replace(/%@#/g, ",")
-                    str = db.escape(str)
-                    return str
-                } else {
-                    return parseFloat(x)
-                }
-            })
-            .join(", ")})`
+        // Create placeholders for parameterized query
+        const placeholders = keys.map(() => "?").join(", ")
 
-        let res = await db.promise().query(query)
-    })
+        let query = `INSERT INTO ${dbname} (${keys.join(
+            ", "
+        )}) VALUES (${placeholders});`
+
+        try {
+            await db.promise().query(query, values)
+        } catch (error) {
+            console.error("Error updating database:", error)
+        }
+    }
 }
 
 async function updateRewardsSummary(round) {
