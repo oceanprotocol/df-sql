@@ -1,3 +1,6 @@
+// NOTE: When adding or modifying structures
+// make sure to update test/validate_db.test.js
+
 var allocationsTable = `CREATE TABLE allocations(
     chainID        INT  NOT NULL
     ,nft_addr      VARCHAR(94) NOT NULL
@@ -69,6 +72,7 @@ var rewardsSummary = `CREATE TABLE rewards_summary(
   curating_amt FLOAT(94, 10) NOT NULL,
   round         INT NOT NULL,
   PRIMARY KEY(LP_addr, round))`
+
 const ownersInfo = `CREATE TABLE owners_info(
     chainID INT NOT NULL,
     nft_addr VARCHAR(94) NOT NULL,
