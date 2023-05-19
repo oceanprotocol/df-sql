@@ -158,13 +158,11 @@ describe("APY Endpoint", () => {
     })
 
     test.skip("get /api/apy/active should return active apy", async () => {
-        getApyByAddr.mockImplementation((query, values, callback) => {
-            callback(null, 42)
-        })
+        getApyByAddr.mockResolvedValueOnce(42);
 
         const response = await request(app).get("/api/apy/addr/test")
 
         expect(response.status).toBe(200)
-        expect(response.body).toEqual({ apy: 0 })
+        expect(response.body).toEqual({ apy: 42 })
     })
 })
