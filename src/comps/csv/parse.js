@@ -30,4 +30,4 @@ function parseCsv(path) {
     return result
 }
 
-module.exports = { parseCsv }
+module.exports = { createObject, parseCsv }

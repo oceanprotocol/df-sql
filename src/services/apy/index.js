@@ -14,6 +14,9 @@ const getApyByAddr = async (addr) => {
         }
     }
     let allocations = await getAllocations(allocationsQuery)
+    if (allocations.length == 0) {
+        return 0
+    }
 
     let rewards_query = {
         query: {
@@ -21,7 +24,9 @@ const getApyByAddr = async (addr) => {
         }
     }
     let rewards = await getRewards(rewards_query)
-
+    if (rewards.length == 0) {
+        return 0
+    }
     // sum allocations
     let tot_allocated = allocations.reduce((acc, cur) => {
         return acc + parseFloat(cur.ocean_amt)
