@@ -8,7 +8,9 @@ const batchUpdateRound = async ({
     passiveRewardsInfo,
     nftinfo,
     ownerInfo,
-    roundNumber
+    roundNumber,
+    predictoor_data,
+    predictoor_rewards
 }) => {
     await dropTable("allocations", roundNumber)
     await updateDb(allocations, "allocations", roundNumber)
@@ -33,9 +35,20 @@ const batchUpdateRound = async ({
 
     await dropTable("rewards_summary", roundNumber)
     await updateRewardsSummary(roundNumber)
+
     if (ownerInfo) {
         await dropTable("owners_info", roundNumber)
         await updateDb(ownerInfo, "owners_info", roundNumber)
+    }
+
+    if (predictoor_data) {
+        await dropTable("predictoor_data", roundNumber)
+        await updateDb(predictoor_data, "predictoor_data", roundNumber)
+    }
+
+    if (predictoor_rewards) {
+        await dropTable("predictoor_rewards", roundNumber)
+        await updateDb(predictoor_rewards, "predictoor_rewards", roundNumber)
     }
 }
 

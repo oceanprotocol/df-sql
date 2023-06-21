@@ -24,7 +24,9 @@ async function sync(dataDir, roundNumber) {
         nftinfo,
         rates,
         symbols,
-        hashsum
+        hashsum,
+        predictoor_data,
+        predictoor_rewards
     } = readDataDir(dataDir)
 
     if (round_hash_map[roundNumber] == hashsum) {
@@ -87,6 +89,8 @@ async function sync(dataDir, roundNumber) {
         rewardsInfo,
         passiveRewardsInfo,
         nftinfo,
+        predictoor_data,
+        predictoor_rewards,
         roundNumber: roundNumber
     })
 }

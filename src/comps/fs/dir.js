@@ -14,6 +14,8 @@ function readDataDir(dataDir) {
 
     let rates = []
     let symbols = []
+    let predictoor_data = []
+    let predictoor_rewards = []
 
     let files = fs.readdirSync(dataDir)
     let hashsum = ""
@@ -42,6 +44,10 @@ function readDataDir(dataDir) {
             rates.push(...parseCsv(`${dataDir}${file}`))
         } else if (file.includes("symbols-")) {
             symbols.push(...parseCsv(`${dataDir}${file}`))
+        } else if (file.includes("predictoor_data")) {
+            predictoor_data.push(...parseCsv(`${dataDir}${file}`))
+        } else if (file.includes("predictoor_rewards")) {
+            predictoor_rewards.push(...parseCsv(`${dataDir}${file}`))
         } else continue
 
         let hash = crypto.createHash("sha256")
