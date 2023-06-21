@@ -8,7 +8,8 @@ const {
     passiveRewardsInfo,
     nftinfoTable,
     rewardsSummary,
-    ownersInfo
+    ownersInfo,
+    predictoorData,
 } = require("../db/structure")
 
 describe("SQL Table Structures", () => {
@@ -20,7 +21,8 @@ describe("SQL Table Structures", () => {
         ["passiveRewardsInfo", passiveRewardsInfo],
         ["nftinfoTable", nftinfoTable],
         ["rewardsSummary", rewardsSummary],
-        ["ownersInfo", ownersInfo]
+        ["ownersInfo", ownersInfo],
+        ["predictoorData", predictoorData]
     ])("validates structure of %s", (tableName, sqlQuery) => {
         let ast
         try {
