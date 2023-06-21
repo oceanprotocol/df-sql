@@ -81,13 +81,21 @@ const ownersInfo = `CREATE TABLE owners_info(
 )`
 
 const predictoorData = `CREATE TABLE predictoor_data(
+    chainID                     INT NOT NULL,
+    predictoor_addr             VARCHAR(42) NOT NULL,
+    accuracy                    FLOAT(94, 10) NOT NULL,
+    n_preds                     INT NOT NULL,
+    n_correct_preds             INT NOT NULL,
+    round                       INT NOT NULL,
+    PRIMARY KEY(chainID, predictoor_addr, round)
+)`
+
+const predictoorRewards = `CREATE TABLE predictoor_rewards(
     chainID INT NOT NULL,
     predictoor_addr VARCHAR(42) NOT NULL,
-    accuracy FLOAT(94, 10) NOT NULL,
-    n_preds          INT NOT NULL,
-    n_correct_preds  INT NOT NULL,
-    round            INT NOT NULL,
-    PRIMARY KEY(chainID, predictoor_addr, round)
+    OCEAN_amt                   FLOAT(94, 10) NOT NULL,
+    round                       INT NOT NULL,
+    PRIMARY KEY(predictoor_addr, round)
 )`
 
 module.exports = {
@@ -99,5 +107,6 @@ module.exports = {
     nftinfoTable,
     rewardsSummary,
     ownersInfo,
-    predictoorData
+    predictoorData,
+    predictoorRewards
 }
