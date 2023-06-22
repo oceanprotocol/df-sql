@@ -57,17 +57,17 @@ describe("Test db operations", () => {
         await updateRewardsSummary(round)
         expect(db.promise().query).toHaveBeenCalledWith(
             `
-    INSERT INTO rewards_summary(LP_addr, passive_amt, curating_amt, predictoor_amt, challenge_amt, round) 
-    SELECT LP_addr, SUM(passive) AS passive_amt, SUM(curating) AS curating_amt, SUM(predictoor) AS predictoor_amt, SUM(challenge) AS challenge_amt, ? FROM 
-        (
-            SELECT LP_addr, SUM(reward) AS passive, 0 AS curating, 0 AS predictoor, 0 AS challenge FROM passive_rewards_info WHERE round = ? GROUP BY LP_addr
-            UNION 
-            SELECT LP_addr, 0 AS passive, SUM(amt) AS curating, 0 AS predictoor, 0 AS challenge FROM rewards_info WHERE round = ? GROUP BY LP_addr
-            UNION
-            SELECT predictoor_addr AS LP_addr, 0 AS passive, 0 AS curating, OCEAN_amt AS predictoor, 0 AS challenge FROM predictoor_rewards WHERE round = ?
-            UNION
-            SELECT winner_addr AS LP_addr, 0 AS passive, 0 AS curating, 0 AS predictoor, SUM(OCEAN_amt) AS challenge FROM challenge_rewards WHERE round = ? GROUP BY winner_addr
-        ) AS foo GROUP BY LP_addr`,
+        INSERT INTO rewards_summary(LP_addr, passive_amt, curating_amt, predictoor_amt, challenge_amt, round) 
+        SELECT LP_addr, SUM(passive) AS passive_amt, SUM(curating) AS curating_amt, SUM(predictoor) AS predictoor_amt, SUM(challenge) AS challenge_amt, ? FROM 
+            (
+                SELECT LP_addr, SUM(reward) AS passive, 0 AS curating, 0 AS predictoor, 0 AS challenge FROM passive_rewards_info WHERE round = ? GROUP BY LP_addr
+                UNION 
+                SELECT LP_addr, 0 AS passive, SUM(amt) AS curating, 0 AS predictoor, 0 AS challenge FROM rewards_info WHERE round = ? GROUP BY LP_addr
+                UNION
+                SELECT predictoor_addr AS LP_addr, 0 AS passive, 0 AS curating, OCEAN_amt AS predictoor, 0 AS challenge FROM predictoor_rewards WHERE round = ?
+                UNION
+                SELECT winner_addr AS LP_addr, 0 AS passive, 0 AS curating, 0 AS predictoor, SUM(OCEAN_amt) AS challenge FROM challenge_rewards WHERE round = ? GROUP BY winner_addr
+            ) AS foo GROUP BY LP_addr`,
             [round, round, round, round, round]
         )
     })
