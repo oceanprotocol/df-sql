@@ -68,10 +68,11 @@ const passiveRewardsInfo = `CREATE TABLE passive_rewards_info(
 
 const rewardsSummary = `CREATE TABLE rewards_summary(
   LP_addr VARCHAR(94) NOT NULL,
-  passive_amt FLOAT(94, 10) NOT NULL,
-  curating_amt FLOAT(94, 10) NOT NULL,
+  passive_amt    FLOAT(94, 10) NOT NULL,
+  curating_amt   FLOAT(94, 10) NOT NULL,
   predictoor_amt FLOAT(94, 10) NOT NULL,
-  round         INT NOT NULL,
+  challenge_amt  FLOAT(94, 10) NOT NULL,
+  round          INT NOT NULL,
   PRIMARY KEY(LP_addr, round))`
 
 const ownersInfo = `CREATE TABLE owners_info(
@@ -97,6 +98,22 @@ const predictoorRewards = `CREATE TABLE predictoor_rewards(
     OCEAN_amt                   FLOAT(94, 10) NOT NULL,
     round                       INT NOT NULL,
     PRIMARY KEY(predictoor_addr, round)
+)`
+
+const challengeData = `CREATE TABLE challenge_data(
+    from_addr                   VARCHAR(42) NOT NULL,
+    nft_addr                    VARCHAR(42) NOT NULL,
+    nmse                        FLOAT(94, 10) NOT NULL,
+    round                       INT NOT NULL,
+    PRIMARY KEY(from_addr, nft_addr, round)
+)`
+
+const challengeRewards = `CREATE TABLE challenge_rewards(
+    chainID INT NOT NULL,
+    winner_addr                 VARCHAR(42) NOT NULL,
+    OCEAN_amt                   FLOAT(94, 10) NOT NULL,
+    round                       INT NOT NULL,
+    PRIMARY KEY(winner_addr, round)
 )`
 
 module.exports = {
