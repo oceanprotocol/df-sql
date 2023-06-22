@@ -51,7 +51,7 @@ describe("Testing readDataDir function", () => {
         const result = readDataDir(dataDir)
 
         expect(fs.readdirSync).toHaveBeenCalledWith(dataDir)
-        expect(fs.readFileSync).toHaveBeenCalledTimes(10)
+        expect(fs.readFileSync).toHaveBeenCalledTimes(14)
         expect(parseCsv).toHaveBeenCalledTimes(10)
         expect(crypto.createHash).toHaveBeenCalledTimes(10)
         expect(mockHash.update).toHaveBeenCalledTimes(10)
