@@ -126,5 +126,7 @@ module.exports = {
     rewardsSummary,
     ownersInfo,
     predictoorData,
-    predictoorRewards
+    predictoorRewards,
+    challengeData,
+    challengeRewards
 }
