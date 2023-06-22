@@ -1,7 +1,7 @@
 // NOTE: When adding or modifying structures
 // make sure to update test/validate_db.test.js
 
-var allocationsTable = `CREATE TABLE allocations(
+const allocationsTable = `CREATE TABLE allocations(
     chainID        INT  NOT NULL
     ,nft_addr      VARCHAR(94) NOT NULL
     ,LP_addr      VARCHAR(94) NOT NULL
@@ -11,7 +11,7 @@ var allocationsTable = `CREATE TABLE allocations(
     ,round         INT NOT NULL
    ,PRIMARY KEY(chainID, nft_addr, LP_addr, round) );`
 
-var nftVolsTable = `CREATE TABLE nft_vols(
+const nftVolsTable = `CREATE TABLE nft_vols(
     chainID        INT  NOT NULL
    ,basetoken_addr      VARCHAR(94) NOT NULL
    ,nft_addr      VARCHAR(94) NOT NULL
@@ -19,7 +19,7 @@ var nftVolsTable = `CREATE TABLE nft_vols(
    ,round         INT NOT NULL
    ,PRIMARY KEY(chainID, nft_addr, basetoken_addr, round) );`
 
-var nftinfoTable = `CREATE TABLE nft_info(
+const nftinfoTable = `CREATE TABLE nft_info(
     chainID        INT  NOT NULL
     ,nft_addr      VARCHAR(94) NOT NULL
     ,did      VARCHAR(300) NOT NULL
@@ -42,7 +42,7 @@ var nftinfoTable = `CREATE TABLE nft_info(
    ,round         INT NOT NULL
    ,PRIMARY KEY(chainID, nft_addr, round) );`
 
-var vebalsTable = `CREATE TABLE vebals(
+const vebalsTable = `CREATE TABLE vebals(
    LP_addr        VARCHAR(94) NOT NULL
    ,balance      FLOAT(94,10) NOT NULL
    ,locked_amt   FLOAT(94,10) NOT NULL
@@ -50,7 +50,7 @@ var vebalsTable = `CREATE TABLE vebals(
    ,round         INT NOT NULL
    ,PRIMARY KEY(LP_addr, round) )`
 
-var rewardsInfo = `CREATE TABLE rewards_info(
+const rewardsInfo = `CREATE TABLE rewards_info(
   chainID INT NOT NULL,
   LP_addr VARCHAR(94) NOT NULL,
   nft_addr VARCHAR(94) NOT NULL,
@@ -59,17 +59,18 @@ var rewardsInfo = `CREATE TABLE rewards_info(
   round         INT NOT NULL,
   PRIMARY KEY(chainID, nft_addr, LP_addr, token, round))`
 
-var passiveRewardsInfo = `CREATE TABLE passive_rewards_info(
+const passiveRewardsInfo = `CREATE TABLE passive_rewards_info(
     LP_addr VARCHAR(94) NOT NULL,
     balance      FLOAT(94,10) NOT NULL,
     reward   FLOAT(94,10) NOT NULL,
     round         INT NOT NULL,
     PRIMARY KEY(LP_addr, round))`
 
-var rewardsSummary = `CREATE TABLE rewards_summary(
+const rewardsSummary = `CREATE TABLE rewards_summary(
   LP_addr VARCHAR(94) NOT NULL,
   passive_amt FLOAT(94, 10) NOT NULL,
   curating_amt FLOAT(94, 10) NOT NULL,
+  predictoor_amt FLOAT(94, 10) NOT NULL,
   round         INT NOT NULL,
   PRIMARY KEY(LP_addr, round))`
 
@@ -80,6 +81,24 @@ const ownersInfo = `CREATE TABLE owners_info(
     PRIMARY KEY(chainID, nft_addr)
 )`
 
+const predictoorData = `CREATE TABLE predictoor_data(
+    chainID                     INT NOT NULL,
+    predictoor_addr             VARCHAR(42) NOT NULL,
+    accuracy                    FLOAT(94, 10) NOT NULL,
+    n_preds                     INT NOT NULL,
+    n_correct_preds             INT NOT NULL,
+    round                       INT NOT NULL,
+    PRIMARY KEY(chainID, predictoor_addr, round)
+)`
+
+const predictoorRewards = `CREATE TABLE predictoor_rewards(
+    chainID INT NOT NULL,
+    predictoor_addr VARCHAR(42) NOT NULL,
+    OCEAN_amt                   FLOAT(94, 10) NOT NULL,
+    round                       INT NOT NULL,
+    PRIMARY KEY(predictoor_addr, round)
+)`
+
 module.exports = {
     allocationsTable,
     nftVolsTable,
@@ -88,5 +107,7 @@ module.exports = {
     passiveRewardsInfo,
     nftinfoTable,
     rewardsSummary,
-    ownersInfo
+    ownersInfo,
+    predictoorData,
+    predictoorRewards
 }

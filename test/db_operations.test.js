@@ -57,14 +57,16 @@ describe("Test db operations", () => {
         await updateRewardsSummary(round)
         expect(db.promise().query).toHaveBeenCalledWith(
             `
-    INSERT INTO rewards_summary(LP_addr,passive_amt,curating_amt,round) 
-    select LP_addr,sum(passive) as passive_amt,sum(curating) as curating_amt,? FROM 
+    INSERT INTO rewards_summary(LP_addr, passive_amt, curating_amt, predictoor_amt, round) 
+    SELECT LP_addr, SUM(passive) AS passive_amt, SUM(curating) AS curating_amt, SUM(OCEAN_amt) AS predictoor_amt, ? FROM 
         (
-            select LP_addr,sum(reward) as passive,0 as curating from passive_rewards_info WHERE round=? group by LP_addr 
+            SELECT LP_addr, SUM(reward) AS passive, 0 AS curating, 0 AS OCEAN_amt FROM passive_rewards_info WHERE round = ? GROUP BY LP_addr 
             UNION 
-            select LP_addr,0 as passive,sum(amt) as curating from rewards_info WHERE round=? group by LP_addr
-        ) as foo group by LP_addr`,
-            [round, round, round]
+            SELECT LP_addr, 0 AS passive, SUM(amt) AS curating, 0 AS OCEAN_amt FROM rewards_info WHERE round = ? GROUP BY LP_addr
+            UNION
+            SELECT predictoor_addr AS LP_addr, 0 AS passive, 0 AS curating, OCEAN_amt FROM predictoor_rewards WHERE round = ?
+        ) AS foo GROUP BY LP_addr`,
+            [round, round, round, round]
         )
     })
 
