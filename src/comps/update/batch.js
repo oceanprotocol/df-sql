@@ -10,7 +10,9 @@ const batchUpdateRound = async ({
     ownerInfo,
     roundNumber,
     predictoor_data,
-    predictoor_rewards
+    predictoor_rewards,
+    challenge_data,
+    challenge_rewards
 }) => {
     await dropTable("allocations", roundNumber)
     await updateDb(allocations, "allocations", roundNumber)
@@ -49,6 +51,16 @@ const batchUpdateRound = async ({
     if (predictoor_rewards) {
         await dropTable("predictoor_rewards", roundNumber)
         await updateDb(predictoor_rewards, "predictoor_rewards", roundNumber)
+    }
+
+    if (challenge_data) {
+        await dropTable("challenge_data", roundNumber)
+        await updateDb(challenge_data, "challenge_data", roundNumber)
+    }
+
+    if (challenge_rewards) {
+        await dropTable("challenge_rewards", roundNumber)
+        await updateDb(challenge_rewards, "challenge_rewards", roundNumber)
     }
 }
 
