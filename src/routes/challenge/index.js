@@ -1,14 +1,14 @@
 const express = require("express")
-const { getPredictoorData, getPredictoorRewards } = require("../../services/predictoor")
+const { getChallengeData, getChallengeRewards } = require("../../services/challenge")
 const router = express.Router()
 
 router.post("/data", async (req, res) => {
-    let data = await getPredictoorData(req.body)
+    let data = await getChallengeData(req.body)
     res.json(data)
 })
 
 router.post("/rewards", async (req, res) => {
-    let data = await getPredictoorRewards(req.body)
+    let data = await getChallengeRewards(req.body)
     res.json(data)
 })
 
