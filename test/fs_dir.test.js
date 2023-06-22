@@ -20,7 +20,11 @@ describe("Testing readDataDir function", () => {
             "passive.csv",
             "nftinfo.csv",
             "rate-sample.csv",
-            "symbols-sample.csv"
+            "symbols-sample.csv",
+            "predictoor_rewards.csv",
+            "predictoor_data.csv",
+            "challenge_rewards.csv",
+            "challenge_data.csv"
         ])
 
         // Mock readFileSync to return a predefined string
@@ -64,6 +68,10 @@ describe("Testing readDataDir function", () => {
             nftinfo: parseCsv(),
             rates: parseCsv(),
             symbols: parseCsv(),
+            predictoor_rewards: parseCsv(),
+            predictoor_data: parseCsv(),
+            challenge_rewards: parseCsv(),
+            challenge_data: parseCsv(),
             hashsum:
                 "123456123456123456123456123456123456123456123456123456123456"
         })
