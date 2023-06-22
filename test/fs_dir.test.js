@@ -73,7 +73,7 @@ describe("Testing readDataDir function", () => {
             challenge_rewards: parseCsv(),
             challenge_data: parseCsv(),
             hashsum:
-                "123456123456123456123456123456123456123456123456123456123456"
+                "123456123456123456123456123456123456123456123456123456123456123456123456123456123456"
         })
     })
 })
