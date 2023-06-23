@@ -1,48 +1,14 @@
 require("dotenv").config()
 const mysql = require("mysql2")
-const {
-    allocationsTable,
-    nftVolsTable,
-    vebalsTable,
-    rewardsInfo,
-    passiveRewardsInfo,
-    nftinfoTable,
-    rewardsSummary,
-    ownersInfo
-} = require("../../db/structure")
+const dbStructure = require("./db/structure");
+
 
 function createTables(con) {
-    con.query(allocationsTable, function (err, result) {
-        if (err) throw err
-        console.log("Table allocations created")
-    })
-    con.query(nftVolsTable, function (err, result) {
-        if (err) throw err
-        console.log("Table nft_vols created")
-    })
-    con.query(vebalsTable, function (err, result) {
-        if (err) throw err
-        console.log("Table vebals created")
-    })
-    con.query(rewardsInfo, function (err, result) {
-        if (err) throw err
-        console.log("Table rewards_info created")
-    })
-    con.query(passiveRewardsInfo, function (err, result) {
-        if (err) throw err
-        console.log("Table passive_rewards_info created")
-    })
-    con.query(nftinfoTable, function (err, result) {
-        if (err) throw err
-        console.log("Table nft_info created")
-    })
-    con.query(rewardsSummary, function (err, result) {
-        if (err) throw err
-        console.log("Table rewards_summary created")
-    })
-    con.query(ownersInfo, function (err, result) {
-        if (err) throw err
-        console.log("Table owners_info created")
+    Object.entries(dbStructure).forEach(([tableName, sqlQuery]) => {
+        con.query(sqlQuery, function (err, result) {
+            if (err) throw err
+            console.log(`Table ${tableName} created`)
+        })
     })
 }
 
