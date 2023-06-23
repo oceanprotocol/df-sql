@@ -1,6 +1,6 @@
 require("dotenv").config()
 const mysql = require("mysql2")
-const dbStructure = require("./db/structure");
+const dbStructure = require("../../db/structure")
 
 
 function createTables(con) {
