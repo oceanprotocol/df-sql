@@ -17,6 +17,9 @@ function readDataDir(dataDir) {
     let predictoor_data = []
     let predictoor_rewards = []
 
+    let challenge_data = []
+    let challenge_rewards = []
+
     let files = fs.readdirSync(dataDir)
     let hashsum = ""
     for (let file of files) {
@@ -48,6 +51,10 @@ function readDataDir(dataDir) {
             predictoor_data.push(...parseCsv(`${dataDir}${file}`))
         } else if (file.includes("predictoor_rewards")) {
             predictoor_rewards.push(...parseCsv(`${dataDir}${file}`))
+        } else if (file.includes("challenge_data")) {
+            challenge_data.push(...parseCsv(`${dataDir}${file}`))
+        } else if (file.includes("challenge_rewards")) {
+            challenge_rewards.push(...parseCsv(`${dataDir}${file}`))
         } else continue
 
         let hash = crypto.createHash("sha256")
@@ -67,7 +74,11 @@ function readDataDir(dataDir) {
         nftinfo,
         rates,
         symbols,
-        hashsum
+        hashsum,
+        predictoor_data,
+        predictoor_rewards,
+        challenge_data,
+        challenge_rewards
     }
 }
 
