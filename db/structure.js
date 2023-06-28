@@ -93,7 +93,6 @@ const predictoorData = `CREATE TABLE predictoor_data(
 )`
 
 const predictoorRewards = `CREATE TABLE predictoor_rewards(
-    chainID INT NOT NULL,
     predictoor_addr VARCHAR(42) NOT NULL,
     OCEAN_amt                   FLOAT(94, 10) NOT NULL,
     round                       INT NOT NULL,
@@ -109,7 +108,6 @@ const challengeData = `CREATE TABLE challenge_data(
 )`
 
 const challengeRewards = `CREATE TABLE challenge_rewards(
-    chainID INT NOT NULL,
     winner_addr                 VARCHAR(42) NOT NULL,
     OCEAN_amt                   FLOAT(94, 10) NOT NULL,
     round                       INT NOT NULL,
