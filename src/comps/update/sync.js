@@ -26,6 +26,7 @@ async function sync(dataDir, roundNumber) {
         symbols,
         hashsum,
         predictoor_data,
+        predictoor_summary,
         predictoor_rewards,
         challenge_data,
         challenge_rewards
@@ -92,6 +93,7 @@ async function sync(dataDir, roundNumber) {
         passiveRewardsInfo,
         nftinfo,
         predictoor_data,
+        predictoor_summary,
         predictoor_rewards,
         challenge_data,
         challenge_rewards,

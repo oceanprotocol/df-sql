@@ -15,6 +15,7 @@ function readDataDir(dataDir) {
     let rates = []
     let symbols = []
     let predictoor_data = []
+    let predictoor_summary = []
     let predictoor_rewards = []
 
     let challenge_data = []
@@ -49,6 +50,8 @@ function readDataDir(dataDir) {
             symbols.push(...parseCsv(`${dataDir}${file}`))
         } else if (file.includes("predictoor_data")) {
             predictoor_data.push(...parseCsv(`${dataDir}${file}`))
+        } else if (file.includes("predictoor_summary")) {
+            predictoor_summary.push(...parseCsv(`${dataDir}${file}`))
         } else if (file.includes("predictoor_rewards")) {
             predictoor_rewards.push(...parseCsv(`${dataDir}${file}`))
         } else if (file.includes("challenge_data")) {
@@ -76,6 +79,7 @@ function readDataDir(dataDir) {
         symbols,
         hashsum,
         predictoor_data,
+        predictoor_summary,
         predictoor_rewards,
         challenge_data,
         challenge_rewards

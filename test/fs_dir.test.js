@@ -22,6 +22,7 @@ describe("Testing readDataDir function", () => {
             "rate-sample.csv",
             "symbols-sample.csv",
             "predictoor_rewards.csv",
+            "predictoor_summary.csv",
             "predictoor_data.csv",
             "challenge_rewards.csv",
             "challenge_data.csv"
