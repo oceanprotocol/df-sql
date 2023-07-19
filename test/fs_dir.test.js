@@ -70,11 +70,12 @@ describe("Testing readDataDir function", () => {
             rates: parseCsv(),
             symbols: parseCsv(),
             predictoor_rewards: parseCsv(),
+            predictoor_summary: parseCsv(),
             predictoor_data: parseCsv(),
             challenge_rewards: parseCsv(),
             challenge_data: parseCsv(),
             hashsum:
-                "123456123456123456123456123456123456123456123456123456123456123456123456123456123456"
+                "123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456"
         })
     })
 })
