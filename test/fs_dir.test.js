@@ -22,6 +22,7 @@ describe("Testing readDataDir function", () => {
             "rate-sample.csv",
             "symbols-sample.csv",
             "predictoor_rewards.csv",
+            "predictoor_summary.csv",
             "predictoor_data.csv",
             "challenge_rewards.csv",
             "challenge_data.csv"
@@ -51,11 +52,11 @@ describe("Testing readDataDir function", () => {
         const result = readDataDir(dataDir)
 
         expect(fs.readdirSync).toHaveBeenCalledWith(dataDir)
-        expect(fs.readFileSync).toHaveBeenCalledTimes(14)
-        expect(parseCsv).toHaveBeenCalledTimes(14)
-        expect(crypto.createHash).toHaveBeenCalledTimes(14)
-        expect(mockHash.update).toHaveBeenCalledTimes(14)
-        expect(mockHash.digest).toHaveBeenCalledTimes(14)
+        expect(fs.readFileSync).toHaveBeenCalledTimes(15)
+        expect(parseCsv).toHaveBeenCalledTimes(15)
+        expect(crypto.createHash).toHaveBeenCalledTimes(15)
+        expect(mockHash.update).toHaveBeenCalledTimes(15)
+        expect(mockHash.digest).toHaveBeenCalledTimes(15)
 
         expect(result).toEqual({
             allocations: parseCsv(),
@@ -69,11 +70,12 @@ describe("Testing readDataDir function", () => {
             rates: parseCsv(),
             symbols: parseCsv(),
             predictoor_rewards: parseCsv(),
+            predictoor_summary: parseCsv(),
             predictoor_data: parseCsv(),
             challenge_rewards: parseCsv(),
             challenge_data: parseCsv(),
             hashsum:
-                "123456123456123456123456123456123456123456123456123456123456123456123456123456123456"
+                "123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456"
         })
     })
 })
