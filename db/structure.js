@@ -136,6 +136,7 @@ module.exports = {
     ownersInfo,
     predictoorData,
     predictoorRewards,
+    predictoorSummary,
     challengeData,
     challengeRewards
 }
