@@ -83,7 +83,6 @@ const ownersInfo = `CREATE TABLE owners_info(
 )`
 
 const predictoorData = `CREATE TABLE predictoor_data(
-    chainID                     INT,
     predictoor_addr             VARCHAR(42) NOT NULL,
     contract_addr               VARCHAR(42) NOT NULL,
     slot                        INT NOT NULL,
@@ -93,7 +92,6 @@ const predictoorData = `CREATE TABLE predictoor_data(
 )`
 
 const predictoorSummary = `CREATE TABLE predictoor_summary(
-    chainID                     INT,
     predictoor_addr             VARCHAR(42) NOT NULL,
     contract_addr               VARCHAR(42) NOT NULL,
     prediction_count            INT NOT NULL,
