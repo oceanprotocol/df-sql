@@ -83,24 +83,22 @@ const ownersInfo = `CREATE TABLE owners_info(
 )`
 
 const predictoorData = `CREATE TABLE predictoor_data(
-    chainID                     INT,
     predictoor_addr             VARCHAR(42) NOT NULL,
     contract_addr               VARCHAR(42) NOT NULL,
     slot                        INT NOT NULL,
     payout                      FLOAT(94, 10) NOT NULL,
     round                       INT NOT NULL,
-    PRIMARY KEY(chainID, predictoor_addr, contract_addr, slot, round)
+    PRIMARY KEY(predictoor_addr, contract_addr, slot, round)
 )`
 
 const predictoorSummary = `CREATE TABLE predictoor_summary(
-    chainID                     INT,
     predictoor_addr             VARCHAR(42) NOT NULL,
     contract_addr               VARCHAR(42) NOT NULL,
     prediction_count            INT NOT NULL,
     correct_prediction_count    INT NOT NULL,
     accuracy                    FLOAT(94, 10) NOT NULL,
     round                       INT NOT NULL,
-    PRIMARY KEY(chainID, predictoor_addr, contract_addr, round)
+    PRIMARY KEY(predictoor_addr, contract_addr, round)
 )`
 
 const predictoorRewards = `CREATE TABLE predictoor_rewards(
