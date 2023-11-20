@@ -87,6 +87,7 @@ const predictoorData = `CREATE TABLE predictoor_data(
     contract_addr               VARCHAR(42) NOT NULL,
     slot                        INT NOT NULL,
     payout                      FLOAT(94, 10) NOT NULL,
+    stake                       FLOAT(94, 10),
     round                       INT NOT NULL,
     PRIMARY KEY(predictoor_addr, contract_addr, slot, round)
 )`
@@ -124,17 +125,17 @@ const challengeRewards = `CREATE TABLE challenge_rewards(
 )`
 
 module.exports = {
-    allocationsTable,
-    nftVolsTable,
-    vebalsTable,
-    rewardsInfo,
-    passiveRewardsInfo,
-    nftinfoTable,
-    rewardsSummary,
-    ownersInfo,
-    predictoorData,
-    predictoorRewards,
-    predictoorSummary,
-    challengeData,
-    challengeRewards
+  allocationsTable,
+  nftVolsTable,
+  vebalsTable,
+  rewardsInfo,
+  passiveRewardsInfo,
+  nftinfoTable,
+  rewardsSummary,
+  ownersInfo,
+  predictoorData,
+  predictoorRewards,
+  predictoorSummary,
+  challengeData,
+  challengeRewards
 }
