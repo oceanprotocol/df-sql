@@ -87,7 +87,7 @@ const predictoorData = `CREATE TABLE predictoor_data(
     contract_addr               VARCHAR(42) NOT NULL,
     slot                        INT NOT NULL,
     payout                      FLOAT(94, 10) NOT NULL,
-    stake                       FLOAT(94, 10) DEFAULT 0,
+    stake                       FLOAT(94, 10),
     round                       INT NOT NULL,
     PRIMARY KEY(predictoor_addr, contract_addr, slot, round)
 )`
