@@ -10,7 +10,7 @@ let syncing_historical = false;
 let syncing = false;
 
 croner.Cron("0 */1 * * * *", async () => {
-    if (!syncing && !syncing_historical) {
+    if (!syncing) {
         syncing = true;
         try {
             await sync(dataDir, 0)
