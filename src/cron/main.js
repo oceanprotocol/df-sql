@@ -12,14 +12,18 @@ croner.Cron("0 */1 * * * *", async () => {
     await sync_historical()
 })
 
+let syncing = false;
+
 async function sync_historical() {
+    if (syncing) return;
+    syncing = true;
     if (!fs.existsSync(histDataDir)) {
         return console.log("no historical data dir");
     }
 
     const folders = fs.readdirSync(histDataDir);
 
-    const maxConcurrency = 20;
+    const maxConcurrency = 40;
 
     async function runWithConcurrency(tasks) {
         const results = [];
@@ -42,4 +46,5 @@ async function sync_historical() {
     const results = await runWithConcurrency(tasks);
 
     results.forEach(result => console.log(result));
+    syncing = false;
 }
