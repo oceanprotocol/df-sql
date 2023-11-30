@@ -4,19 +4,38 @@ const fs = require("fs")
 const dataDir = "/csv/"
 const histDataDir = "/csv/historical/"
 
-croner.Cron("0 */1 * * * *", async () => {
-    await sync(dataDir, 0)
-})
 
-croner.Cron("0 */1 * * * *", async () => {
-    await sync_historical()
-})
-
+let syncing_historical = false;
 let syncing = false;
 
+croner.Cron("0 */1 * * * *", async () => {
+    if (!syncing) {
+        syncing = true;
+        try {
+            await sync(dataDir, 0)
+        } finally {
+            syncing = false;
+        }
+    } else {
+        console.log('Sync in progress. Skipping this run.');
+    }
+})
+
+croner.Cron("0 */1 * * * *", async () => {
+    if (!syncing_historical) {
+        syncing_historical = true;
+        try {
+            await sync_historical();
+        } finally {
+            syncing_historical = false;
+        }
+    } else {
+        console.log('Sync in progress. Skipping this run.');
+    }
+});
+
+
 async function sync_historical() {
-    if (syncing) return;
-    syncing = true;
     if (!fs.existsSync(histDataDir)) {
         return console.log("no historical data dir");
     }
@@ -46,5 +65,4 @@ async function sync_historical() {
     const results = await runWithConcurrency(tasks);
 
     results.forEach(result => console.log(result));
-    syncing = false;
 }
