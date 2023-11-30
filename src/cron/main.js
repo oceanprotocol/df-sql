@@ -65,7 +65,7 @@ async function sync_historical() {
             throw new Error(`Folder name is not a number: ${folder}`);
         }
         try {
-            await sync(path.join(histDataDir, folder), roundNumber);
+            await sync(path.join(histDataDir, folder) + "/", roundNumber);
             return `Sync completed for folder: ${folder}`;
         } catch (error) {
             return `Error syncing folder ${folder}: ${error.message}`;
