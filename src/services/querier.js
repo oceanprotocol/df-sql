@@ -33,7 +33,6 @@ const selectQuery = (
     if (jsonsql.round === undefined) jsonsql.round = 0
 
     const query = jsonSql.build(obj)
-    console.log("Query:", query)
 
     let q = query.query
     // q = q.replaceAll('"', "`");
