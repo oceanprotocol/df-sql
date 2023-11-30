@@ -14,13 +14,15 @@ croner.Cron("0 */1 * * * *", async () => {
 
 async function sync_historical() {
     if (!fs.existsSync(histDataDir)) {
-        return console.log("no historical data dir")
+        return console.log("no historical data dir");
     }
-    let folders = fs.readdirSync(histDataDir)
-    folders.forEach(async (folder) => {
-        let roundNumber = parseInt(folder)
+
+    let folders = fs.readdirSync(histDataDir);
+
+    for (const folder of folders) {
+        let roundNumber = parseInt(folder);
         if (roundNumber) {
-            await sync(histDataDir + folder + "/", roundNumber)
+            await Promise.all([sync(histDataDir + folder + "/", roundNumber)]);
         }
-    })
+    }
 }
