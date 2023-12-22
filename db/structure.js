@@ -98,8 +98,8 @@ const predictoorSummary = `CREATE TABLE predictoor_summary(
     prediction_count            INT NOT NULL,
     correct_prediction_count    INT NOT NULL,
     accuracy                    FLOAT(94, 10) NOT NULL,
-    total_stake                    FLOAT(94, 10) NOT NULL,
-    total_payout                    FLOAT(94, 10) NOT NULL,
+    total_stake                    FLOAT(94, 10),
+    total_payout                    FLOAT(94, 10),
     round                       INT NOT NULL,
     PRIMARY KEY(predictoor_addr, contract_addr, round)
 )`
