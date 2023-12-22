@@ -104,7 +104,9 @@ const predictoorSummary = `CREATE TABLE predictoor_summary(
 
 const predictoorRewards = `CREATE TABLE predictoor_rewards(
     predictoor_addr VARCHAR(42) NOT NULL,
-    OCEAN_amt                   FLOAT(94, 10) NOT NULL,
+    contract_addr VARCHAR(42),
+    OCEAN_amt                   FLOAT(94, 10),
+    ROSE_amt                   FLOAT(94, 10),
     round                       INT NOT NULL,
     PRIMARY KEY(predictoor_addr, round)
 )`
