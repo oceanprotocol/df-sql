@@ -108,7 +108,7 @@ const predictoorRewards = `CREATE TABLE predictoor_rewards(
     OCEAN_amt                   FLOAT(94, 10),
     ROSE_amt                   FLOAT(94, 10),
     round                       INT NOT NULL,
-    PRIMARY KEY(predictoor_addr, round)
+    PRIMARY KEY(predictoor_addr, contract_addr, round)
 )`
 
 const challengeData = `CREATE TABLE challenge_data(
