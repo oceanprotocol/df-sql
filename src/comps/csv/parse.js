@@ -29,6 +29,12 @@ function parseCsv(path) {
             return
         }
 
+        // Skip the row if any value is empty
+        if (values.some((value) => !value)) {
+            console.log("Skipping row with empty value(s):", row);
+            return;
+        }
+
         let obj = createObject(keys, values)
         result.push(obj)
     })
