@@ -35,7 +35,6 @@ async function sync(dataDir, roundNumber) {
     if (round_hash_map[roundNumber] == hashsum) {
         return console.log("No changes detected, skipping round", roundNumber)
     }
-    round_hash_map[roundNumber] = hashsum
 
     try {
         nftinfo = parsePurgatory(nftinfo)
@@ -99,6 +98,7 @@ async function sync(dataDir, roundNumber) {
         challenge_rewards,
         roundNumber: roundNumber
     })
+    round_hash_map[roundNumber] = hashsum
 }
 
 module.exports = { sync }
