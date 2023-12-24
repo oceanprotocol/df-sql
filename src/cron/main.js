@@ -43,7 +43,7 @@ async function sync_historical() {
 
     const folders = fs.readdirSync(histDataDir);
 
-    const maxConcurrency = 30;
+    const maxConcurrency = 1
 
     async function runWithConcurrency(tasks) {
         const results = [];

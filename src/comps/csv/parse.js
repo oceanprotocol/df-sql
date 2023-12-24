@@ -20,10 +20,22 @@ function parseCsv(path) {
     let firstRow = rows.shift()
     let keys = firstRow.split(",").map(cleanText)
 
-    rows.forEach((x) => {
-        x = x.split(",").map(cleanText)
-        if (x.some((p) => !p)) return
-        let obj = createObject(keys, x)
+    rows.forEach((row) => {
+        let values = row.split(",").map(cleanText)
+
+        // Skip the row if the number of values doesn't match the number of keys
+        if (values.length !== keys.length) {
+            // console.log("Skipping invalid row:", row)
+            return
+        }
+
+        // Skip the row if any value is empty
+        if (values.some((value) => !value)) {
+            console.log("Skipping row with empty value(s):", row);
+            return;
+        }
+
+        let obj = createObject(keys, values)
         result.push(obj)
     })
 
