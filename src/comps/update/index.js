@@ -10,29 +10,62 @@ async function dropTable(dbname, round) {
 
 async function updateDb(data, dbname, round) {
     console.log("Updating db", dbname, round, data.length)
+
+    if (data.length === 0) return
+
+    // Determine the number of keys expected in each element
+    const expectedKeyCount =
+        Object.keys(data[0]).length + (round !== undefined ? 1 : 0)
+    let valuesToInsert = []
+
     for (const element of data) {
-        let keys = Object.keys(element)
+        const currentKeyCount =
+            Object.keys(element).length + (round !== undefined ? 1 : 0)
+
+        // Skip elements with inconsistent number of keys
+        if (currentKeyCount !== expectedKeyCount) {
+            console.log(
+                "Skipping element with inconsistent data structure:",
+                element
+            )
+            continue
+        }
+
         let values = Object.values(element)
 
         if (round !== undefined) {
-            keys.push("round")
-            values.push(round)
+            values.push(round) // Add round value if it's provided
         }
 
-        // Create placeholders for parameterized query
-        const placeholders = keys.map(() => "?").join(", ")
+        valuesToInsert.push(values) // Add this set of values for bulk insertion
+    }
 
-        let query = `INSERT INTO ${dbname} (${keys.join(
-            ", "
-        )}) VALUES (${placeholders});`
+    if (valuesToInsert.length === 0) {
+        console.log("No valid data to insert. Exiting function.")
+        return
+    }
 
-        try {
-            await db.promise().query(query, values)
-        } catch (error) {
-            console.error("Error updating database:", error)
-        }
+    let keys = Object.keys(data[0])
+    if (round !== undefined) {
+        keys.push("round")
+    }
+
+    const singlePlaceholder = `(${keys.map(() => "?").join(", ")})`
+    const allPlaceholders = valuesToInsert
+        .map(() => singlePlaceholder)
+        .join(", ")
+
+    let query = `INSERT INTO ${dbname} (${keys.join(
+        ", "
+    )}) VALUES ${allPlaceholders};`
+
+    try {
+        await db.promise().query(query, [].concat(...valuesToInsert))
+    } catch (error) {
+        console.error("Error during bulk database update:", error)
     }
 }
+
 async function updateRewardsSummary(round) {
     // Aggregates the sum of "passive," "curating," "predictoor" and "challenge" rewards for each "LP_addr" for a given "round" by getting the sum of `amt` from `rewards_info`, `passive_rewards_info`, `predictoor_rewards` and `challenge_rewards` tables
     await db.promise().query(
@@ -49,10 +82,8 @@ async function updateRewardsSummary(round) {
                 SELECT winner_addr AS LP_addr, 0 AS passive, 0 AS curating, 0 AS predictoor, SUM(OCEAN_amt) AS challenge FROM challenge_rewards WHERE round = ? GROUP BY winner_addr
             ) AS foo GROUP BY LP_addr`,
         [round, round, round, round, round]
-    );
+    )
 }
-
-
 
 module.exports = {
     updateDb,
