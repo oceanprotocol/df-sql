@@ -36,9 +36,6 @@ const batchUpdateRound = async ({
     await dropTable("nft_info", roundNumber)
     await updateDb(nftinfo, "nft_info", roundNumber)
 
-    await dropTable("rewards_summary", roundNumber)
-    await updateRewardsSummary(roundNumber)
-
     if (ownerInfo) {
         await dropTable("owners_info", roundNumber)
         await updateDb(ownerInfo, "owners_info", roundNumber)
@@ -68,6 +65,9 @@ const batchUpdateRound = async ({
         await dropTable("challenge_rewards", roundNumber)
         await updateDb(challenge_rewards, "challenge_rewards", roundNumber)
     }
+
+    await dropTable("rewards_summary", roundNumber)
+    await updateRewardsSummary(roundNumber)
 }
 
 module.exports = { batchUpdateRound }
