@@ -68,10 +68,10 @@ const passiveRewardsInfo = `CREATE TABLE passive_rewards_info(
 
 const rewardsSummary = `CREATE TABLE rewards_summary(
   LP_addr VARCHAR(94) NOT NULL,
-  passive_amt    FLOAT(94, 10) NOT NULL,
-  curating_amt   FLOAT(94, 10) NOT NULL,
-  predictoor_amt FLOAT(94, 10) NOT NULL,
-  challenge_amt  FLOAT(94, 10) NOT NULL,
+  passive_amt    FLOAT(94, 10),
+  curating_amt   FLOAT(94, 10),
+  predictoor_amt FLOAT(94, 10),
+  challenge_amt  FLOAT(94, 10),
   round          INT NOT NULL,
   PRIMARY KEY(LP_addr, round))`
 
